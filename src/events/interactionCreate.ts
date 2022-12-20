@@ -12,6 +12,8 @@ class interactionCreate extends Event
 
     public async execute(client: TClient, interaction: Interaction): Promise<void>
     {
+        interaction = (interaction as any)[0];
+        
         await handleCommand(client, interaction as ChatInputCommandInteraction);
     }
 }

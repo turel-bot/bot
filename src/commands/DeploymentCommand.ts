@@ -8,7 +8,7 @@ import type TClient from '../structures/TClient';
 import Command from '../structures/Command';
 import config from '../../config.json';
 
-class ExampleCommand extends Command
+class DeploymentCommand extends Command
 {
     public constructor()
     {
@@ -22,6 +22,11 @@ class ExampleCommand extends Command
                 )
                 .addSubcommand(
                     new SlashCommandSubcommandBuilder()
+                        .setName('clear')
+                        .setDescription('Clears all commands deployed in this guild.')
+                )
+                .addSubcommand(
+                    new SlashCommandSubcommandBuilder()
                         .setName('global')
                         .setDescription('Deploy commands globally.')
                 )
@@ -31,8 +36,7 @@ class ExampleCommand extends Command
 
     public async execute(interaction: ChatInputCommandInteraction): Promise<any>
     {
-        // @ts-expect-error Check if it doesnt equal either ID. TS is being weird here.
-        if(interaction.user.id !== '327639826075484162' || interaction.user.id !== '949101689393254401')
+        if(interaction.user.id !== '327639826075484162' && interaction.user.id !== '949101689393254401')
         {
             await interaction.reply({
                 embeds: [
@@ -54,6 +58,12 @@ class ExampleCommand extends Command
                     await interaction.reply(`Successfully reloaded ${ amount } application (/) commands.`);
                     break;
                 }
+            case 'clear':
+                {
+                    await interaction.guild?.commands.set([]);
+                    await interaction.reply('Cleared all slash commands in this guild!');
+                    break;
+                }
             case 'global':
                 {
                     const amount: number = await deployCommands(config.clientId as string, interaction.client.token, (interaction.client as TClient).commands);
@@ -68,4 +78,4 @@ class ExampleCommand extends Command
     }
 }
 
-export default new ExampleCommand();
+export default new DeploymentCommand();
