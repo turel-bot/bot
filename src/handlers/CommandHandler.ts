@@ -4,9 +4,16 @@ import type TClient from '../structures/TClient';
 
 export default async function handleCommand(client: TClient, interaction: ChatInputCommandInteraction): Promise<void>
 {
+    // shit code.
+    interaction = (interaction as any)[0];
+
     const command: Command | undefined = client.commands.get(interaction.commandName);
 
-    if(!command) return;
+    if(!command) 
+    {
+        console.log(`Command ${ interaction.commandName} doesnt exist`);
+        return;
+    }
 
     try
     {
