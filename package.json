@@ -5,7 +5,7 @@
   "main": "./dist/src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "setup": "npm i && npx tsc && npx prisma generate",
+    "setup": "npm i && npx prisma generate && npx tsc",
     "prisma": "npx prisma generate"
   },
   "keywords": [],
