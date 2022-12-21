@@ -7,10 +7,7 @@ export default async function handleCommand(client: TClient, interaction: ChatIn
     const command: Command | undefined = client.commands.get(interaction.commandName);
 
     if(!command) 
-    {
-        console.log(`Command ${ interaction.commandName} doesnt exist`);
         return;
-    }
 
     try
     {
