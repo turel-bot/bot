@@ -81,7 +81,7 @@ class CoinflipCommand extends Command
         await interaction.reply({
             embeds: [{
                 title: `${ won ? 'You won!' : 'You lost!' }`,
-                description: `${ won ? 'You won ' + amount * 2 + ' bottlecaps!' : 'You lost ' + amount + ' bottlecaps. :(' }`
+                description: `${ won ? 'You won ' + (amount * 2).toLocaleString() + ' bottlecaps!' : 'You lost ' + amount + ' bottlecaps. :(' }`
             }]
         });
 

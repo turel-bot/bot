@@ -41,7 +41,7 @@ class BegCommand extends Command
 
         const amountRecieved: number = Math.floor(Math.random() * 1001);
 
-        await interaction.reply(`You begged and recieved ${ amountRecieved } bottlecaps!`);
+        await interaction.reply(`You begged and recieved ${ amountRecieved.toLocaleString() } bottlecaps!`);
         const fetchUser: { ok: true, user: { balance: number } } = await findOrCreateUser(interaction.user.id) as any;
 
         await updateUser(interaction.user.id, fetchUser.user.balance + amountRecieved);

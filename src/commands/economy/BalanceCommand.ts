@@ -38,7 +38,7 @@ class BalanceCommand extends Command
             return;
         }
 
-        if(amount !== null && amount > 0)
+        if(amount !== null && amount >= 0)
         {
             await this.updateBalance(interaction, iUser, query);
             return;
@@ -70,7 +70,7 @@ class BalanceCommand extends Command
         const amount = interaction.options.getInteger('amount', true);
         const newUser = await updateUser(iUser.id, amount);
 
-        await interaction.reply({ content: `Set ${ iUser.username }'s balance to ${ newUser.balance }.` });
+        await interaction.reply({ content: `Set ${ iUser.username }'s balance to ${ newUser.balance.toLocaleString() }.` });
     }
 
     public async sendBalance(interaction: ChatInputCommandInteraction, iUser: User, query: OKType)
@@ -82,7 +82,7 @@ class BalanceCommand extends Command
         }
 
         const user: { id: string, balance: number; } = query.user as any;
-        await interaction.reply({ content: `${ interaction.user === iUser ? 'You have' : `${ iUser.username } has` } ${ user.balance } bottlecaps.`, ephemeral: true });
+        await interaction.reply({ content: `${ interaction.user === iUser ? 'You have' : `${ iUser.username } has` } ${ user.balance.toLocaleString() } bottlecaps.`, ephemeral: true });
     }
 }
 

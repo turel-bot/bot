@@ -5,7 +5,7 @@ import { PrismaClient } from '@prisma/client';
 const prismaClient: PrismaClient = new PrismaClient();
 const client: TClient = new TClient({
     intents: [
-        'Guilds'
+        'Guilds', 'GuildEmojisAndStickers'
     ],
     partials: [],
     // razer gaming phone moment
