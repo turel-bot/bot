@@ -17,7 +17,6 @@ class CoinflipCommand extends Command
                     input =>
                         input.setName('amount')
                             .setDescription('The amount to gamble!')
-                            .setRequired(true)
                 )
                 .setDescription('Gamble!')
         );
@@ -26,19 +25,22 @@ class CoinflipCommand extends Command
     public async execute(interaction: ChatInputCommandInteraction): Promise<any>
     {
         const game = await blackjack(interaction);
-        const amount: number = interaction.options.getInteger('amount', true);
+        const amount: number = interaction.options.getInteger('amount', false) ?? 0;
         const fetchedUser: { ok: boolean, user: { balance: number; }; } = await findOrCreateUser(interaction.user.id) as any;
 
         switch(game.result)
         {
             case 'WIN': {
-                await updateUser(interaction.user.id, (fetchedUser.user.balance) + amount * 2);
+                if(amount > 0)
+                    await updateUser(interaction.user.id, (fetchedUser.user.balance) + amount * 2);
                 break;
             }
 
             case 'LOSE': {
-                await updateUser(interaction.user.id, (fetchedUser.user.balance) - amount);
-                break;
+                if(amount > 0)
+                    await updateUser(interaction.user.id, (fetchedUser.user.balance) - amount);
+                
+                    break;
             }
 
             default: {
