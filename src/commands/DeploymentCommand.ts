@@ -3,7 +3,7 @@
 import { CustomError } from '@biased-ts/eor';
 import type { ChatInputCommandInteraction } from 'discord.js';
 import { SlashCommandBuilder, SlashCommandSubcommandBuilder } from 'discord.js';
-import deployCommands from '../deployment/DeployCommands';
+import deployCommands from '../utility/DeployCommands';
 import type TClient from '../structures/TClient';
 import Command from '../structures/Command';
 import config from '../../config.json';
