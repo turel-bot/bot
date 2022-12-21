@@ -5,7 +5,8 @@
   "main": "./dist/src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "setup": "npm i && npx tsc"
+    "setup": "npm i && npx tsc && npx prisma generate",
+    "prisma": "npx prisma generate"
   },
   "keywords": [],
   "author": "turel-bot",
