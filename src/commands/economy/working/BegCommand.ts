@@ -1,9 +1,9 @@
 import type { ChatInputCommandInteraction } from 'discord.js';
 import { SlashCommandBuilder } from 'discord.js';
-import Cooldown from '../../utility/cooldown/Cooldown';
-import Command from '../../structures/Command';
-import { updateUser } from '../..//utility/db/updateUser';
-import findOrCreateUser from '../../utility/db/FindOrCreateUser';
+import Cooldown from '../../../utility/cooldown/Cooldown';
+import Command from '../../../structures/Command';
+import { updateUser } from '../../../utility/db/updateUser';
+import findOrCreateUser from '../../../utility/db/FindOrCreateUser';
 
 class BegCommand extends Command
 {

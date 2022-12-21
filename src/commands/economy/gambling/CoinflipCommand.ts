@@ -1,9 +1,9 @@
 import type { ChatInputCommandInteraction } from 'discord.js';
-import type OKType from '../../utility/OKType';
+import type OKType from '../../../utility/OKType';
 import { SlashCommandBuilder } from 'discord.js';
-import Command from '../../structures/Command';
-import findOrCreateUser from '../../utility/db/FindOrCreateUser';
-import { updateUser } from '../../utility/db/updateUser';
+import Command from '../../../structures/Command';
+import findOrCreateUser from '../../../utility/db/FindOrCreateUser';
+import { updateUser } from '../../../utility/db/updateUser';
 
 class CoinflipCommand extends Command
 {
