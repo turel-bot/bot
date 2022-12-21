@@ -54,14 +54,9 @@ Then, move to the bot directory.
 cd bot-master
 ```
 
-From there, install the dependencies the bot has.
+From there, run the setup script.
 ```sh
-npm install
-```
-
-And second to last run the Typescript compiler.
-```sh
-npx tsc
+npm run setup
 ```
 
 Lastly fill in your information into the `config.json` and run the bot with `node ./dist/src/index.js` (your directory might change a bit)
