@@ -25,9 +25,9 @@ class CoinflipCommand extends Command
                 .addIntegerOption(
                     input =>
                         input.setName('amount')
-                            .setDescription('The amount to set the balance to')
+                            .setDescription('The amount to gamble!')
                 )
-                .setDescription('View your or anothers balance.')
+                .setDescription('Gamble!')
         );
     }
 
@@ -86,7 +86,7 @@ class CoinflipCommand extends Command
         });
 
         if(won)
-            await updateUser(interaction.user.id, amount * 2);
+            await updateUser(interaction.user.id, (user.balance) + amount * 2);
         else
             await updateUser(interaction.user.id, user.balance - amount);
     }

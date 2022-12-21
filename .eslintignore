@@ -4,3 +4,4 @@ builds
 examples
 jest.config.ts
 docs
+src/discord-blackjack
