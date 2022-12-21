@@ -15,6 +15,7 @@ interface Directories
 class TClient extends Client
 {
     public commands: Collection<string, Command> = new Collection<string, Command>();
+    public cooldowns: Collection<string, { time: number, command: string; }> = new Collection<string, { time: number, command: string }>();
 
     // The rule is being stupid here. It is readonly.
     // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
