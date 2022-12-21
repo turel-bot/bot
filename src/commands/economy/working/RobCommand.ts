@@ -40,7 +40,8 @@ class RobCommand extends Command
 
     public async execute(interaction: ChatInputCommandInteraction): Promise<any>
     {
-        const cooldown = await Cooldown(interaction.user, 'rob', 1_000);
+        // 10m
+        const cooldown = await Cooldown(interaction.user, 'rob', 600000);
 
         if(!cooldown.new && cooldown.command === 'rob')
         {

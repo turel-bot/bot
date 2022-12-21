@@ -18,7 +18,8 @@ class BegCommand extends Command
 
     public async execute(interaction: ChatInputCommandInteraction): Promise<any>
     {
-        const cooldown = await Cooldown(interaction.user, 'beg', 1_000);
+        // 1m
+        const cooldown = await Cooldown(interaction.user, 'beg', 60_000);
 
         if(!cooldown.new && cooldown.command === 'beg')
         {
