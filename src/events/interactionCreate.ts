@@ -14,7 +14,8 @@ class interactionCreate extends Event
     {
         interaction = (interaction as any)[0];
         
-        await handleCommand(client, interaction as ChatInputCommandInteraction);
+        if(interaction.isChatInputCommand())
+            await handleCommand(client, interaction as ChatInputCommandInteraction);
     }
 }
 
