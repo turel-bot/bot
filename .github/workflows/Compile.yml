@@ -19,6 +19,6 @@ jobs:
     - name: create default config
       run: touch config.json
     - name: populate the config with no details
-      run: echo "{token: \"\",clientId: \"\"}" >> config.json 
+      run: "echo "{token: \"\",clientId: \"\"}" >> config.json"
     - name: tsc
       uses: icrawl/action-tsc@v1
