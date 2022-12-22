@@ -16,5 +16,9 @@ jobs:
       run: npm ci --ignore-scripts
     - name: prisma generate
       run: npx prisma generate
+    - name: create default config
+      run: touch config.json
+    - name: populate the config with no details
+      run: echo "{token: \"\",clientId: \"\"}" >> config.json 
     - name: tsc
       uses: icrawl/action-tsc@v1
