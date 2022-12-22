@@ -12,9 +12,9 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 12
-    - name: prisma generate
-      run: npx prisma generate
     - name: npm ci
       run: npm ci --ignore-scripts
+    - name: prisma generate
+      run: npx prisma generate
     - name: tsc
       uses: icrawl/action-tsc@v1
