@@ -55,21 +55,35 @@ class RobCommand extends Command
         }
 
         const robbedUser: User = interaction.options.getUser('user', true);
+
+        if(interaction.user.id === robbedUser.id)
+        {
+            await interaction.reply({
+                embeds: [{
+                    title: ':x: Cannot rob yourself.'
+                }]
+            });
+
+            return;
+        }
+
         const isAllowed: boolean = Math.random() < 0.4;
 
         if(robbedUser.id === interaction.client.user.id)
         {
             await updateUser(interaction.user.id, 0);
-            await interaction.reply({ embeds: [{
-                title: 'You tried to rob god. This does not work out for you.',
-                footer: {
-                    text: 'Your balance was set to 0. Dont fuck with turel.',
-                    icon_url: 'https://media.discordapp.net/attachments/1024392785241063486/1054613951075332136/output-onlinegiftools.gif'
-                },
-                image: {
-                    url: 'https://media.discordapp.net/attachments/1024392785241063486/1054613951075332136/output-onlinegiftools.gif'
-                }
-            }] });
+            await interaction.reply({
+                embeds: [{
+                    title: 'You tried to rob god. This does not work out for you.',
+                    footer: {
+                        text: 'Your balance was set to 0. Dont fuck with turel.',
+                        icon_url: 'https://media.discordapp.net/attachments/1024392785241063486/1054613951075332136/output-onlinegiftools.gif'
+                    },
+                    image: {
+                        url: 'https://media.discordapp.net/attachments/1024392785241063486/1054613951075332136/output-onlinegiftools.gif'
+                    }
+                }]
+            });
             return;
         }
 
