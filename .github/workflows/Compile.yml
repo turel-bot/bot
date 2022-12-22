@@ -13,6 +13,6 @@ jobs:
       with:
         node-version: 12
     - name: npm ci
-      run: npm ci
+      run: npm ci --ignore-scripts
     - name: tsc
       uses: icrawl/action-tsc@v1
