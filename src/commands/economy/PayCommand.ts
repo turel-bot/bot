@@ -43,7 +43,7 @@ class PayCommand extends Command
             return;
         }
 
-        const executorUser: { ok: boolean, user: { balance: number; }; } = await findOrCreateUser(interaction.user.id) as any;
+        const executorUser: { ok: boolean, user: { balance: bigint; }; } = await findOrCreateUser(interaction.user.id) as any;
         if(executorUser.user.balance < amount)
         {
             await interaction.reply({
@@ -55,10 +55,10 @@ class PayCommand extends Command
             return;
         }
 
-        const recievingUser: { ok: boolean, user: { balance: number; }; } = await findOrCreateUser(transferUser.id) as any;
+        const recievingUser: { ok: boolean, user: { balance: bigint; }; } = await findOrCreateUser(transferUser.id) as any;
 
-        await updateUser(transferUser.id, recievingUser.user.balance + amount);
-        await updateUser(interaction.user.id, executorUser.user.balance - amount);
+        await updateUser(transferUser.id, Number(recievingUser.user.balance) + amount);
+        await updateUser(interaction.user.id, Number(executorUser.user.balance) - amount);
 
         await interaction.reply({
             embeds: [{
