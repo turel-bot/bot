@@ -26,19 +26,19 @@ class CoinflipCommand extends Command
     {
         const game = await blackjack(interaction);
         const amount: number = interaction.options.getInteger('amount', false) ?? 0;
-        const fetchedUser: { ok: boolean, user: { balance: number; }; } = await findOrCreateUser(interaction.user.id) as any;
+        const fetchedUser: { ok: boolean, user: { balance: bigint; }; } = await findOrCreateUser(interaction.user.id) as any;
 
         switch(game.result)
         {
             case 'WIN': {
                 if(amount > 0)
-                    await updateUser(interaction.user.id, (fetchedUser.user.balance) + amount * 2);
+                    await updateUser(interaction.user.id, (Number(fetchedUser.user.balance)) + amount * 2);
                 break;
             }
 
             case 'LOSE': {
                 if(amount > 0)
-                    await updateUser(interaction.user.id, (fetchedUser.user.balance) - amount);
+                    await updateUser(interaction.user.id, (Number(fetchedUser.user.balance)) - amount);
                 
                     break;
             }

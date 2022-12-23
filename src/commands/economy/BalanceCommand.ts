@@ -81,7 +81,7 @@ class BalanceCommand extends Command
             return;
         }
 
-        const user: { id: string, balance: number; } = query.user as any;
+        const user: { id: string, balance: bigint; } = query.user as any;
         await interaction.reply({ content: `${ interaction.user === iUser ? 'You have' : `${ iUser.username } has` } ${ user.balance.toLocaleString() } bottlecaps.`, ephemeral: true });
     }
 }

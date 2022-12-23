@@ -58,7 +58,7 @@ class CoinflipCommand extends Command
 
 
         const query: OKType = await findOrCreateUser(interaction.user.id);
-        const user: { id: string, balance: number; } = query.user as any;
+        const user: { id: string, balance: bigint; } = query.user as any;
 
         if(!query.ok)
         {
@@ -86,9 +86,9 @@ class CoinflipCommand extends Command
         });
 
         if(won)
-            await updateUser(interaction.user.id, (user.balance) + amount * 2);
+            await updateUser(interaction.user.id, (Number(user.balance)) + amount * 2);
         else
-            await updateUser(interaction.user.id, user.balance - amount);
+            await updateUser(interaction.user.id, Number(user.balance) - amount);
     }
 }
 

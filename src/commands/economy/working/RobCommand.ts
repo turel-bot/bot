@@ -93,16 +93,16 @@ class RobCommand extends Command
 
             if(robbedYourAssBack)
             {
-                const dbSenderUser: { ok: true, user: { balance: number; }; } = await findOrCreateUser(interaction.user.id) as any;
-                const dbRobbedUser: { ok: true, user: { balance: number; }; } = await findOrCreateUser(robbedUser.id) as any;
+                const dbSenderUser: { ok: true, user: { balance: bigint; }; } = await findOrCreateUser(interaction.user.id) as any;
+                const dbRobbedUser: { ok: true, user: { balance: bigint; }; } = await findOrCreateUser(robbedUser.id) as any;
 
                 if(dbRobbedUser.user.balance <= 0)
                     return;
 
-                const amountStolen: number = Math.floor(Math.random() * dbSenderUser.user.balance);
+                const amountStolen: number = Math.floor(Math.random() * Number(dbSenderUser.user.balance));
 
-                await updateUser(robbedUser.id, dbRobbedUser.user.balance + amountStolen);
-                await updateUser(interaction.user.id, dbSenderUser.user.balance - amountStolen);
+                await updateUser(robbedUser.id, Number(dbRobbedUser.user.balance) + amountStolen);
+                await updateUser(interaction.user.id, Number(dbSenderUser.user.balance) - amountStolen);
 
                 await interaction.reply(`${ getFailMessage(robbedBack, robbedUser) }\n${ robbedUser } took ${ amountStolen.toLocaleString() }`);
                 return;
