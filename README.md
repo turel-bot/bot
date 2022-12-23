@@ -1,19 +1,20 @@
 <br />
 
-# turrel
-
-`turrel` is a free and open source [Discord](https://discord.gg) bot 
-
-It provides several features such as:
-- Economy
-- Leveling
-
-
-[Invite to your server](https://discord.com/api/oauth2/authorize?client_id=1054601338312466505&permissions=8&scope=bot%20applications.commands)
-
-
-[Support server](https://discord.gg/q2QJaBABwP)
-
+<div align="center">
+    <img src="logos/turel.gif" width="200" align="center">
+    <div align="center">
+        <p>
+            turrel is a free and open source <a href="discord.gg">Discord</a> bot 
+        </p>
+        <p>
+            It provides several features such as:
+            Economy & Leveling
+        </p>
+        <p>
+            <a href="https://discord.com/api/oauth2/authorize?client_id=1054601338312466505&permissions=8&scope=bot%20applications.commands">Invite to your server</a> - <a href="https://discord.gg/q2QJaBABwP">Support Server</a>
+        </p>
+    </div>
+</div>
 
 <details>
     <summary>
