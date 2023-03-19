@@ -3,6 +3,7 @@ import { SlashCommandBuilder } from 'discord.js';
 import Command from '../../structures/Command';
 import { updateUser } from '../../utility/db/updateUser';
 import findOrCreateUser from '../../utility/db/FindOrCreateUser';
+import ParseIntWithCommas from '../../utility/numbers/ParseIntWithCommas';
 
 class PayCommand extends Command
 {
@@ -30,7 +31,19 @@ class PayCommand extends Command
     public async execute(interaction: ChatInputCommandInteraction): Promise<any>
     {
         const transferUser = interaction.options.getUser('user', true);
-        const amount = interaction.options.getInteger('amount', true);
+        const amount = ParseIntWithCommas(interaction.options.getInteger('amount', true));
+
+        if(amount === null)
+        {
+            await interaction.reply({
+                embeds: [{
+                    title: 'Expected a number value to be passed to \`amount\`.'
+                }],
+                ephemeral: true
+            });
+
+            return;
+        }
 
         if(amount <= 0 || isNaN(amount))
         {

@@ -4,6 +4,7 @@ import { SlashCommandBuilder } from 'discord.js';
 import Command from '../../structures/Command';
 import findOrCreateUser from '../../utility/db/FindOrCreateUser';
 import { updateUser } from '../../utility/db/updateUser';
+import ParseIntWithCommas from '../../utility/numbers/ParseIntWithCommas';
 
 class BalanceCommand extends Command
 {
@@ -28,7 +29,7 @@ class BalanceCommand extends Command
     public async execute(interaction: ChatInputCommandInteraction): Promise<any>
     {
         const iUser = interaction.options.getUser('user', false) ?? interaction.user;
-        const amount = interaction.options.getInteger('amount', false);
+        const amount = ParseIntWithCommas(interaction.options.getInteger('amount', false)!);
 
         const query: OKType = await findOrCreateUser(iUser.id);
 

@@ -4,6 +4,7 @@ import { SlashCommandBuilder } from 'discord.js';
 import Command from '../../../structures/Command';
 import findOrCreateUser from '../../../utility/db/FindOrCreateUser';
 import { updateUser } from '../../../utility/db/updateUser';
+import ParseIntWithCommas from '../../../utility/numbers/ParseIntWithCommas';
 
 class CoinflipCommand extends Command
 {
@@ -33,7 +34,7 @@ class CoinflipCommand extends Command
 
     public async execute(interaction: ChatInputCommandInteraction): Promise<any>
     {
-        const amount = interaction.options.getInteger('amount', false);
+        const amount = ParseIntWithCommas(interaction.options.getInteger('amount', false)!);
         const side = interaction.options.getString('side', true);
 
         if(side.toLowerCase() !== 'heads' && side.toLowerCase() !== 'Tails')

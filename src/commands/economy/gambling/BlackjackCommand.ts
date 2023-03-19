@@ -5,6 +5,7 @@ import Command from '../../../structures/Command';
 import findOrCreateUser from '../../../utility/db/FindOrCreateUser';
 import { updateUser } from '../../../utility/db/updateUser';
 import blackjack from '../../../discord-blackjack/index';
+import ParseIntWithCommas from '../../../utility/numbers/ParseIntWithCommas';
 
 class CoinflipCommand extends Command
 {
@@ -25,7 +26,7 @@ class CoinflipCommand extends Command
     public async execute(interaction: ChatInputCommandInteraction): Promise<any>
     {
         const game = await blackjack(interaction);
-        const amount: number = interaction.options.getInteger('amount', false) ?? 0;
+        const amount: number = ParseIntWithCommas(interaction.options.getInteger('amount', false)!) ?? 0;
         const fetchedUser: { ok: boolean, user: { balance: bigint; }; } = await findOrCreateUser(interaction.user.id) as any;
 
         switch(game.result)
@@ -39,8 +40,8 @@ class CoinflipCommand extends Command
             case 'LOSE': {
                 if(amount > 0)
                     await updateUser(interaction.user.id, (BigInt(fetchedUser.user.balance)) - BigInt(amount));
-                
-                    break;
+
+                break;
             }
 
             default: {
