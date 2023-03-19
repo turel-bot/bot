@@ -86,9 +86,9 @@ class CoinflipCommand extends Command
         });
 
         if(won)
-            await updateUser(interaction.user.id, (Number(user.balance)) + amount * 2);
+            await updateUser(interaction.user.id, BigInt(user.balance + BigInt(amount)) * BigInt(2));
         else
-            await updateUser(interaction.user.id, Number(user.balance) - amount);
+            await updateUser(interaction.user.id, BigInt(user.balance) - BigInt(amount));
     }
 }
 

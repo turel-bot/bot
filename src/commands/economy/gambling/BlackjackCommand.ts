@@ -32,13 +32,13 @@ class CoinflipCommand extends Command
         {
             case 'WIN': {
                 if(amount > 0)
-                    await updateUser(interaction.user.id, (Number(fetchedUser.user.balance)) + amount * 2);
+                    await updateUser(interaction.user.id, BigInt(fetchedUser.user.balance + BigInt(amount)) * BigInt(2));
                 break;
             }
 
             case 'LOSE': {
                 if(amount > 0)
-                    await updateUser(interaction.user.id, (Number(fetchedUser.user.balance)) - amount);
+                    await updateUser(interaction.user.id, (BigInt(fetchedUser.user.balance)) - BigInt(amount));
                 
                     break;
             }

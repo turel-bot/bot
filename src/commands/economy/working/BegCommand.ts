@@ -45,7 +45,7 @@ class BegCommand extends Command
         await interaction.reply(`You begged and recieved ${ amountRecieved.toLocaleString() } bottlecaps!`);
         const fetchUser: { ok: true, user: { balance: bigint; }; } = await findOrCreateUser(interaction.user.id) as any;
 
-        await updateUser(interaction.user.id, Number(fetchUser.user.balance) + amountRecieved);
+        await updateUser(interaction.user.id, BigInt(fetchUser.user.balance) + BigInt(amountRecieved));
     }
 }
 

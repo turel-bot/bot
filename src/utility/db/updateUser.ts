@@ -1,7 +1,7 @@
 import { prismaClient } from '../../index';
 import findOrCreateUser from './FindOrCreateUser';
 
-async function updateUser(id: string, balance: number): Promise<{ uuid: string; balance: bigint; }>
+async function updateUser(id: string, balance: bigint): Promise<{ uuid: string; balance: bigint; }>
 {
     await findOrCreateUser(id);
     

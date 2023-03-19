@@ -71,7 +71,7 @@ class RobCommand extends Command
 
         if(robbedUser.id === interaction.client.user.id)
         {
-            await updateUser(interaction.user.id, 0);
+            await updateUser(interaction.user.id, BigInt(0));
             await interaction.reply({
                 embeds: [{
                     title: 'You tried to rob god. This does not work out for you.',
@@ -101,8 +101,8 @@ class RobCommand extends Command
 
                 const amountStolen: number = Math.floor(Math.random() * Number(dbSenderUser.user.balance));
 
-                await updateUser(robbedUser.id, Number(dbRobbedUser.user.balance) + amountStolen);
-                await updateUser(interaction.user.id, Number(dbSenderUser.user.balance) - amountStolen);
+                await updateUser(robbedUser.id, BigInt(dbRobbedUser.user.balance) + BigInt(amountStolen));
+                await updateUser(interaction.user.id, BigInt(dbSenderUser.user.balance) - BigInt(amountStolen));
 
                 await interaction.reply(`${ getFailMessage(robbedBack, robbedUser) }\n${ robbedUser } took ${ amountStolen.toLocaleString() }`);
                 return;
@@ -124,8 +124,8 @@ class RobCommand extends Command
 
         const amountStolen: number = Math.floor(Math.random() * dbRobbedUser.user.balance);
 
-        await updateUser(robbedUser.id, dbRobbedUser.user.balance - amountStolen);
-        await updateUser(interaction.user.id, dbSenderUser.user.balance + amountStolen);
+        await updateUser(robbedUser.id, BigInt(dbRobbedUser.user.balance - amountStolen));
+        await updateUser(interaction.user.id, BigInt(dbSenderUser.user.balance + amountStolen));
 
         await interaction.reply(`You robbed ${ robbedUser } and walked away with ${ amountStolen.toLocaleString() }.`);
     }

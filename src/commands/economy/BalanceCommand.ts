@@ -68,7 +68,7 @@ class BalanceCommand extends Command
         }
 
         const amount = interaction.options.getInteger('amount', true);
-        const newUser = await updateUser(iUser.id, amount);
+        const newUser = await updateUser(iUser.id, BigInt(amount));
 
         await interaction.reply({ content: `Set ${ iUser.username }'s balance to ${ newUser.balance.toLocaleString() }.` });
     }
