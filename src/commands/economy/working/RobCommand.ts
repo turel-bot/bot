@@ -1,9 +1,10 @@
 import type { ChatInputCommandInteraction, User } from 'discord.js';
 import { SlashCommandBuilder } from 'discord.js';
-import Cooldown from '../../../utility/cooldown/Cooldown';
 import Command from '../../../structures/Command';
 import { updateUser } from '../../../utility/db/updateUser';
 import findOrCreateUser from '../../../utility/db/FindOrCreateUser';
+import CooldownHandler from '../../../cooldowns/CooldownHandler';
+import Cooldown from '../../../cooldowns/Cooldown';
 
 const failMessages: string[] = [
     'You fumbled the bag.',
@@ -41,9 +42,9 @@ class RobCommand extends Command
     public async execute(interaction: ChatInputCommandInteraction): Promise<any>
     {
         // 10m
-        const cooldown = await Cooldown(interaction.user, 'rob', 600000);
+        const cooldown: Cooldown | null = CooldownHandler.getInstance().getCooldown(interaction.user.id, 'rob');
 
-        if(!cooldown.new && cooldown.command === 'rob')
+        if(!cooldown || cooldown.isActive())
         {
             await interaction.reply({
                 embeds: [{
@@ -128,6 +129,7 @@ class RobCommand extends Command
         await updateUser(interaction.user.id, BigInt(dbSenderUser.user.balance + amountStolen));
 
         await interaction.reply(`You robbed ${ robbedUser } and walked away with ${ amountStolen.toLocaleString() }.`);
+        CooldownHandler.getInstance().addCooldown(interaction.user.id, new Cooldown(interaction.user.id, 'rob', 600000));
     }
 }
 

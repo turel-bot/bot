@@ -1,9 +1,10 @@
 import type { ChatInputCommandInteraction } from 'discord.js';
 import { SlashCommandBuilder } from 'discord.js';
-import Cooldown from '../../../utility/cooldown/Cooldown';
 import Command from '../../../structures/Command';
 import { updateUser } from '../../../utility/db/updateUser';
 import findOrCreateUser from '../../../utility/db/FindOrCreateUser';
+import CooldownHandler from '../../../cooldowns/CooldownHandler';
+import Cooldown from '../../../cooldowns/Cooldown';
 
 class BegCommand extends Command
 {
@@ -19,9 +20,9 @@ class BegCommand extends Command
     public async execute(interaction: ChatInputCommandInteraction): Promise<any>
     {
         // 1m
-        const cooldown = await Cooldown(interaction.user, 'beg', 60_000);
+        const cooldown: Cooldown | null = CooldownHandler.getInstance().getCooldown(interaction.user.id, 'beg');
 
-        if(!cooldown.new && cooldown.command === 'beg')
+        if(!cooldown || cooldown.isActive())
         {
             await interaction.reply({
                 embeds: [{
@@ -46,6 +47,7 @@ class BegCommand extends Command
         const fetchUser: { ok: true, user: { balance: bigint; }; } = await findOrCreateUser(interaction.user.id) as any;
 
         await updateUser(interaction.user.id, BigInt(fetchUser.user.balance) + BigInt(amountRecieved));
+        CooldownHandler.getInstance().addCooldown(interaction.user.id, new Cooldown(interaction.user.id, 'beg', 60_000));
     }
 }
 
