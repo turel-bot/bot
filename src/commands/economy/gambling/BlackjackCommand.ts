@@ -1,5 +1,5 @@
 /* eslint-disable indent */
-import type { CacheType, ChatInputCommandInteraction } from 'discord.js';
+import type { ChatInputCommandInteraction } from 'discord.js';
 import { SlashCommandBuilder } from 'discord.js';
 import Command from '../../../structures/Command';
 import findOrCreateUser from '../../../utility/db/FindOrCreateUser';
@@ -25,6 +25,7 @@ class CoinflipCommand extends Command
 
     public async execute(interaction: ChatInputCommandInteraction): Promise<any>
     {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         const game = await blackjack(interaction as any); // this uses the wrong type. fix in @turel-bot/discord-blackjack
         const amount: number = ParseIntWithCommas(interaction.options.getInteger('amount', false)!) ?? 0;
         const fetchedUser: { ok: boolean, user: { balance: bigint; }; } = await findOrCreateUser(interaction.user.id) as any;
