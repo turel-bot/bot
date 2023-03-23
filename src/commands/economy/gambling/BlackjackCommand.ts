@@ -4,7 +4,7 @@ import { SlashCommandBuilder } from 'discord.js';
 import Command from '../../../structures/Command';
 import findOrCreateUser from '../../../utility/db/FindOrCreateUser';
 import { updateUser } from '../../../utility/db/updateUser';
-import blackjack from '../../../discord-blackjack/index';
+import blackjack from '@turel/discord-blackjack';
 import ParseIntWithCommas from '../../../utility/numbers/ParseIntWithCommas';
 
 class CoinflipCommand extends Command
@@ -25,7 +25,8 @@ class CoinflipCommand extends Command
 
     public async execute(interaction: ChatInputCommandInteraction): Promise<any>
     {
-        const game = await blackjack(interaction);
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+        const game = await blackjack(interaction as any); // this uses the wrong type. fix in @turel-bot/discord-blackjack
         const amount: number = ParseIntWithCommas(interaction.options.getInteger('amount', false)!) ?? 0;
         const fetchedUser: { ok: boolean, user: { balance: bigint; }; } = await findOrCreateUser(interaction.user.id) as any;
 
