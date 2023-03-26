@@ -57,7 +57,6 @@ class CoinflipCommand extends Command
             return;
         }
 
-
         const query: OKType = await findOrCreateUser(interaction.user.id);
         const user: { id: string, balance: bigint; } = query.user as any;
 
