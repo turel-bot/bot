@@ -37,7 +37,7 @@ class CoinflipCommand extends Command
         const amount = ParseIntWithCommas(interaction.options.getInteger('amount', false)!);
         const side = interaction.options.getString('side', true);
 
-        if(side.toLowerCase() !== 'heads' && side.toLowerCase() !== 'Tails')
+        if(side.toLowerCase() !== 'heads' && side.toLowerCase() !== 'tails')
         {
             await interaction.reply({ content: `The provided side \`${ side }\` is not a valid side.`, ephemeral: true });
             return;
