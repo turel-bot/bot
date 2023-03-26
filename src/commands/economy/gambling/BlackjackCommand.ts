@@ -41,7 +41,6 @@ class CoinflipCommand extends Command
             case 'LOSE': {
                 if(amount > 0)
                     await updateUser(interaction.user.id, (BigInt(fetchedUser.user.balance)) - BigInt(amount));
-
                 break;
             }
 
