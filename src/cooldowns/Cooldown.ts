@@ -34,7 +34,7 @@ class Cooldown implements ICooldown
     isActive(): boolean
     {
         // rn + that time is before rn
-        if(this.startedAt + this.duration >= Date.now())
+        if(this.startedAt + this.duration <= Date.now())
         {
             CooldownHandler.getInstance().removeCooldown(this.userId, this);
             return false;
