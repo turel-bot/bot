@@ -25,8 +25,7 @@ class CoinflipCommand extends Command
 
     public async execute(interaction: ChatInputCommandInteraction): Promise<any>
     {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-        const game = await blackjack(interaction as any); // this uses the wrong type. fix in @turel-bot/discord-blackjack
+        const game = await blackjack(interaction);
         const amount: number = ParseIntWithCommas(interaction.options.getInteger('amount', false)!) ?? 0;
         const fetchedUser: { ok: boolean, user: { balance: bigint; }; } = await findOrCreateUser(interaction.user.id) as any;
 
