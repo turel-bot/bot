@@ -1,5 +1,6 @@
-import type { ChatInputCommandInteraction, User } from 'discord.js';
+import type TClient from 'src/structures/TClient';
 import type OKType from '../../utility/OKType';
+import type { ChatInputCommandInteraction, User } from 'discord.js';
 import type { User as DBUser } from '@prisma/client';
 import { SlashCommandBuilder } from 'discord.js';
 import Command from '../../structures/Command';
@@ -57,7 +58,7 @@ class BalanceCommand extends Command
             return;
         }
 
-        if(interaction.user.id !== '327639826075484162' && interaction.user.id !== '949101689393254401')
+        if(!(interaction.client as TClient).isOwner(interaction.user.id))
         {
             await interaction.reply({
                 embeds: [
