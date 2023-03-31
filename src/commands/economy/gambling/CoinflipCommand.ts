@@ -1,4 +1,5 @@
 import type { ChatInputCommandInteraction } from 'discord.js';
+import type { User as DBUser } from '@prisma/client';
 import type OKType from '../../../utility/OKType';
 import { SlashCommandBuilder } from 'discord.js';
 import Command from '../../../structures/Command';
@@ -57,8 +58,8 @@ class CoinflipCommand extends Command
             return;
         }
 
-        const query: OKType = await findOrCreateUser(interaction.user.id);
-        const user: { id: string, balance: bigint; } = query.user as any;
+        const query: OKType<DBUser> = await findOrCreateUser(interaction.user.id);
+        const user: DBUser = query.data;
 
         if(!query.ok)
         {
