@@ -21,7 +21,7 @@ class BegCommand extends Command
     {
         // 1m
         const cooldown: Cooldown | null = CooldownHandler.getInstance().getCooldown(interaction.user.id, 'beg');
-        console.log(cooldown);
+
         if(cooldown !== null && cooldown.isActive())
         {
             await interaction.reply({
@@ -49,7 +49,6 @@ class BegCommand extends Command
         await updateUser(interaction.user.id, BigInt(fetchUser.user.balance) + BigInt(amountRecieved));
         
         CooldownHandler.getInstance().addCooldown(interaction.user.id, new Cooldown(interaction.user.id, 'beg', 60_000));
-        console.log('made cooldown');
     }
 }
 
