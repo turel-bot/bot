@@ -42,7 +42,7 @@ class TClient extends Client
                 return '';
             }
 
-            token = process.env.TOKEN as string;
+            token = process.env.TOKEN!;
         }
 
         if(!directories)
@@ -62,6 +62,10 @@ class TClient extends Client
         return token;
     }
 
+    /**
+     * @description Loads commands recuresively from a base directory.
+     * @param {string} directory - The base directory to recursively go through and find commands in. 
+     */
     private async loadCommands(directory: string): Promise<void>
     {
         const files: string[] = readdirSync(directory);
@@ -85,6 +89,10 @@ class TClient extends Client
         }
     }
 
+    /**
+     * @description Loads events recursively from a base directory.
+     * @param {string} directory - The base directory to recursively go through and find events in.
+     */
     private async loadEvents(directory: string): Promise<void>
     {
         const files: string[] = readdirSync(directory);
