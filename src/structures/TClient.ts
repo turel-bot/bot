@@ -15,7 +15,8 @@ interface Directories
 class TClient extends Client
 {
     public commands: Collection<string, Command> = new Collection<string, Command>();
-    public cooldowns: Collection<string, { time: number, command: string; }> = new Collection<string, { time: number, command: string }>();
+    public cooldowns: Collection<string, { time: number, command: string; }> = new Collection<string, { time: number, command: string; }>();
+    public owners: string[] = process.env.owners?.split(',') ?? [];
 
     // The rule is being stupid here. It is readonly.
     // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
@@ -108,6 +109,15 @@ class TClient extends Client
                 await this.loadEvents(path);
             }
         }
+    }
+
+    public isOwner(id: string): boolean
+    {
+        for(let i: number = 0; i < this.owners.length; i++)
+            if(this.owners[i] === id)
+                return true;
+
+        return false;
     }
 }
 

@@ -1,7 +1,7 @@
-interface OKType
+interface OKType<B>
 {
     ok: boolean;
-    [x: string]: unknown;
+    data: B;
 }
 
 export default OKType;

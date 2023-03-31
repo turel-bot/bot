@@ -52,7 +52,7 @@ git clone https://github.com/turel-bot/bot.git
 
 Then, move to the bot directory.
 ```sh
-cd bot-master
+cd bot-muncho
 ```
 
 From there, run the setup script.
@@ -60,7 +60,8 @@ From there, run the setup script.
 npm run setup
 ```
 
-Lastly fill in your information into the `config.json` and run the bot with `node ./dist/src/index.js` (your directory might change a bit)
+Lastly edit the `.env` file and fill in your information. You are expected to know how to get your
+token and client id.
 
 ### Acknowledgements
 

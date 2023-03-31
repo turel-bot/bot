@@ -1,5 +1,7 @@
-import type { ChatInputCommandInteraction, User } from 'discord.js';
+import type TClient from 'src/structures/TClient';
 import type OKType from '../../utility/OKType';
+import type { ChatInputCommandInteraction, User } from 'discord.js';
+import type { User as DBUser } from '@prisma/client';
 import { SlashCommandBuilder } from 'discord.js';
 import Command from '../../structures/Command';
 import findOrCreateUser from '../../utility/db/FindOrCreateUser';
@@ -31,7 +33,7 @@ class BalanceCommand extends Command
         const iUser = interaction.options.getUser('user', false) ?? interaction.user;
         const amount = ParseIntWithCommas(interaction.options.getInteger('amount', false)!);
 
-        const query: OKType = await findOrCreateUser(iUser.id);
+        const query: OKType<DBUser> = await findOrCreateUser(iUser.id);
 
         if(!query.ok)
         {
@@ -48,7 +50,7 @@ class BalanceCommand extends Command
         await this.sendBalance(interaction, iUser, query);
     }
 
-    public async updateBalance(interaction: ChatInputCommandInteraction, iUser: User, query: OKType)
+    public async updateBalance(interaction: ChatInputCommandInteraction, iUser: User, query: OKType<DBUser>)
     {
         if(query === null)
         {
@@ -56,7 +58,7 @@ class BalanceCommand extends Command
             return;
         }
 
-        if(interaction.user.id !== '327639826075484162' && interaction.user.id !== '949101689393254401')
+        if(!(interaction.client as TClient).isOwner(interaction.user.id))
         {
             await interaction.reply({
                 embeds: [
@@ -74,7 +76,7 @@ class BalanceCommand extends Command
         await interaction.reply({ content: `Set ${ iUser.username }'s balance to ${ newUser.balance.toLocaleString() }.` });
     }
 
-    public async sendBalance(interaction: ChatInputCommandInteraction, iUser: User, query: OKType)
+    public async sendBalance(interaction: ChatInputCommandInteraction, iUser: User, query: OKType<DBUser>)
     {
         if(query === null)
         {
@@ -82,7 +84,7 @@ class BalanceCommand extends Command
             return;
         }
 
-        const user: { id: string, balance: bigint; } = query.user as any;
+        const user: { id: string, balance: bigint; } = query.data as any;
         await interaction.reply({ content: `${ interaction.user === iUser ? 'You have' : `${ iUser.username } has` } ${ user.balance.toLocaleString() } bottlecaps.`, ephemeral: true });
     }
 }

@@ -1,4 +1,6 @@
 import type { ChatInputCommandInteraction } from 'discord.js';
+import type { User as DBUser } from '@prisma/client';
+import type OKType from 'src/utility/OKType';
 import { SlashCommandBuilder } from 'discord.js';
 import Command from '../../../structures/Command';
 import { updateUser } from '../../../utility/db/updateUser';
@@ -22,7 +24,7 @@ class BegCommand extends Command
         // 1m
         const cooldown: Cooldown | null = CooldownHandler.getInstance().getCooldown(interaction.user.id, 'beg');
 
-        if(!cooldown || cooldown.isActive())
+        if(cooldown !== null && cooldown.isActive())
         {
             await interaction.reply({
                 embeds: [{
@@ -44,9 +46,10 @@ class BegCommand extends Command
         const amountRecieved: number = Math.floor(Math.random() * 1001);
 
         await interaction.reply(`You begged and recieved ${ amountRecieved.toLocaleString() } bottlecaps!`);
-        const fetchUser: { ok: true, user: { balance: bigint; }; } = await findOrCreateUser(interaction.user.id) as any;
+        const fetchUser: OKType<DBUser> = await findOrCreateUser(interaction.user.id) as any;
 
-        await updateUser(interaction.user.id, BigInt(fetchUser.user.balance) + BigInt(amountRecieved));
+        await updateUser(interaction.user.id, BigInt(fetchUser.data.balance) + BigInt(amountRecieved));
+        
         CooldownHandler.getInstance().addCooldown(interaction.user.id, new Cooldown(interaction.user.id, 'beg', 60_000));
     }
 }

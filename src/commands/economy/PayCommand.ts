@@ -1,4 +1,6 @@
 import type { ChatInputCommandInteraction } from 'discord.js';
+import type { User as DBUser } from '@prisma/client';
+import type OKType from 'src/utility/OKType';
 import { SlashCommandBuilder } from 'discord.js';
 import Command from '../../structures/Command';
 import { updateUser } from '../../utility/db/updateUser';
@@ -56,8 +58,8 @@ class PayCommand extends Command
             return;
         }
 
-        const executorUser: { ok: boolean, user: { balance: bigint; }; } = await findOrCreateUser(interaction.user.id) as any;
-        if(executorUser.user.balance < amount)
+        const executorUser: OKType<DBUser> = await findOrCreateUser(interaction.user.id) as any;
+        if(executorUser.data.balance < amount)
         {
             await interaction.reply({
                 embeds: [{
@@ -68,13 +70,13 @@ class PayCommand extends Command
             return;
         }
 
-        const recievingUser: { ok: boolean, user: { balance: bigint; }; } = await findOrCreateUser(transferUser.id) as any;
+        const recievingUser: OKType<DBUser> = await findOrCreateUser(transferUser.id) as any;
 
-        await updateUser(transferUser.id, BigInt((recievingUser.user.balance + BigInt(amount) as any) as bigint));
+        await updateUser(transferUser.id, BigInt((recievingUser.data.balance + BigInt(amount) as any) as bigint));
         // i do not fucking care get the fuck out of here eslint
         // stop with this dumb shit wtf
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-        await updateUser(interaction.user.id, BigInt((executorUser.user.balance - BigInt(amount) as any) as any) as bigint);
+        await updateUser(interaction.user.id, BigInt((executorUser.data.balance - BigInt(amount) as any) as any) as bigint);
 
         await interaction.reply({
             embeds: [{
