@@ -1,5 +1,5 @@
+import { config } from 'dotenv'; config();
 import TClient from './structures/TClient';
-import config from '../config.json';
 import { PrismaClient } from '@prisma/client';
 
 const prismaClient: PrismaClient = new PrismaClient();
@@ -16,7 +16,7 @@ const client: TClient = new TClient({
     }
 });
 
-client.init(config.token)
+client.init(process.env.token)
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     .catch((r) => { throw r; });
 

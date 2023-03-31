@@ -6,7 +6,6 @@ import { SlashCommandBuilder, SlashCommandSubcommandBuilder } from 'discord.js';
 import deployCommands from '../../utility/DeployCommands';
 import type TClient from '../../structures/TClient';
 import Command from '../../structures/Command';
-import config from '../../../config.json';
 
 class DeploymentCommand extends Command
 {
@@ -54,7 +53,7 @@ class DeploymentCommand extends Command
         {
             case 'guild':
                 {
-                    const amount: number = await deployCommands(config.clientId as string, interaction.client.token, (interaction.client as TClient).commands, interaction.guild?.id);
+                    const amount: number = await deployCommands(process.env.CLIENT_ID as string, interaction.client.token, (interaction.client as TClient).commands, interaction.guild?.id);
                     await interaction.reply(`Successfully reloaded ${ amount } application (/) commands.`);
                     break;
                 }
@@ -66,7 +65,7 @@ class DeploymentCommand extends Command
                 }
             case 'global':
                 {
-                    const amount: number = await deployCommands(config.clientId as string, interaction.client.token, (interaction.client as TClient).commands);
+                    const amount: number = await deployCommands(process.env.CLIENT_ID as string, interaction.client.token, (interaction.client as TClient).commands);
                     await interaction.reply(`Successfully reloaded ${ amount } application (/) commands.`);
                     break;
                 }
