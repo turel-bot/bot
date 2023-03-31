@@ -1,7 +1,8 @@
 import { prismaClient } from '../../index';
+import type { User } from '@prisma/client';
 import type OKType from '../OKType';
 
-async function createUser(id: string): Promise<OKType>
+async function createUser(id: string): Promise<OKType<User>>
 {
     const newUser = await prismaClient.user.create({
         data: {
@@ -12,7 +13,7 @@ async function createUser(id: string): Promise<OKType>
 
     return {
         ok: true,
-        user: newUser
+        data: newUser
     };
 }
 
