@@ -1,7 +1,9 @@
 import type { ChatInputCommandInteraction, User } from 'discord.js';
+import type { User as DBUser } from '@prisma/client';
+import type OKType from 'src/utility/OKType';
 import { SlashCommandBuilder } from 'discord.js';
-import Command from '../../../structures/Command';
 import { updateUser } from '../../../utility/db/updateUser';
+import Command from '../../../structures/Command';
 import findOrCreateUser from '../../../utility/db/FindOrCreateUser';
 import CooldownHandler from '../../../cooldowns/CooldownHandler';
 import Cooldown from '../../../cooldowns/Cooldown';
@@ -114,19 +116,19 @@ class RobCommand extends Command
             return;
         }
 
-        const dbSenderUser: { ok: true, user: { balance: number; }; } = await findOrCreateUser(interaction.user.id) as any;
-        const dbRobbedUser: { ok: true, user: { balance: number; }; } = await findOrCreateUser(robbedUser.id) as any;
+        const dbSenderUser: OKType<DBUser> = await findOrCreateUser(interaction.user.id) as any;
+        const dbRobbedUser: OKType<DBUser> = await findOrCreateUser(robbedUser.id) as any;
 
-        if(dbRobbedUser.user.balance <= 0)
+        if(dbRobbedUser.data.balance <= 0)
         {
             await interaction.reply('You tried to rob a homeless person. What\'s wrong with you?');
             return;
         }
 
-        const amountStolen: number = Math.floor(Math.random() * dbRobbedUser.user.balance);
+        const amountStolen: bigint = BigInt(Math.floor(Math.random() * Number(dbRobbedUser.data.balance)));
 
-        await updateUser(robbedUser.id, BigInt(dbRobbedUser.user.balance - amountStolen));
-        await updateUser(interaction.user.id, BigInt(dbSenderUser.user.balance + amountStolen));
+        await updateUser(robbedUser.id, BigInt(dbRobbedUser.data.balance - amountStolen));
+        await updateUser(interaction.user.id, BigInt(dbSenderUser.data.balance + amountStolen));
 
         await interaction.reply(`You robbed ${ robbedUser } and walked away with ${ amountStolen.toLocaleString() }.`);
         CooldownHandler.getInstance().addCooldown(interaction.user.id, new Cooldown(interaction.user.id, 'rob', 600000));

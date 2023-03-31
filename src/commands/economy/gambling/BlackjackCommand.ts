@@ -1,5 +1,7 @@
 /* eslint-disable indent */
 import type { ChatInputCommandInteraction } from 'discord.js';
+import type { User as DBUser } from '@prisma/client';
+import type OKType from 'src/utility/OKType';
 import { SlashCommandBuilder } from 'discord.js';
 import Command from '../../../structures/Command';
 import findOrCreateUser from '../../../utility/db/FindOrCreateUser';
@@ -27,19 +29,19 @@ class CoinflipCommand extends Command
     {
         const game = await blackjack(interaction);
         const amount: number = ParseIntWithCommas(interaction.options.getInteger('amount', false)!) ?? 0;
-        const fetchedUser: { ok: boolean, user: { balance: bigint; }; } = await findOrCreateUser(interaction.user.id) as any;
+        const fetchedUser: OKType<DBUser> = await findOrCreateUser(interaction.user.id) as any;
 
         switch(game.result)
         {
             case 'WIN': {
                 if(amount > 0)
-                    await updateUser(interaction.user.id, BigInt(fetchedUser.user.balance + BigInt(amount)) * BigInt(2));
+                    await updateUser(interaction.user.id, BigInt(fetchedUser.data.balance + BigInt(amount)) * BigInt(2));
                 break;
             }
 
             case 'LOSE': {
                 if(amount > 0)
-                    await updateUser(interaction.user.id, (BigInt(fetchedUser.user.balance)) - BigInt(amount));
+                    await updateUser(interaction.user.id, (BigInt(fetchedUser.data.balance)) - BigInt(amount));
                 break;
             }
 
