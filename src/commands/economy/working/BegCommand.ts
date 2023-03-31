@@ -21,8 +21,8 @@ class BegCommand extends Command
     {
         // 1m
         const cooldown: Cooldown | null = CooldownHandler.getInstance().getCooldown(interaction.user.id, 'beg');
-
-        if(!cooldown || cooldown.isActive())
+        console.log(cooldown);
+        if(cooldown !== null && cooldown.isActive())
         {
             await interaction.reply({
                 embeds: [{
@@ -47,7 +47,9 @@ class BegCommand extends Command
         const fetchUser: { ok: true, user: { balance: bigint; }; } = await findOrCreateUser(interaction.user.id) as any;
 
         await updateUser(interaction.user.id, BigInt(fetchUser.user.balance) + BigInt(amountRecieved));
+        
         CooldownHandler.getInstance().addCooldown(interaction.user.id, new Cooldown(interaction.user.id, 'beg', 60_000));
+        console.log('made cooldown');
     }
 }
 

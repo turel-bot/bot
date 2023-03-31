@@ -26,6 +26,9 @@ class CooldownHandler
 
         for(let i: number = 0; i < query.length; i++)
         {
+            if(query[i] === null || query[i] === undefined)
+                continue;
+                
             if(query[i].commandName !== name)
                 continue;
 

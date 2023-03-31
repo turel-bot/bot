@@ -44,7 +44,7 @@ class RobCommand extends Command
         // 10m
         const cooldown: Cooldown | null = CooldownHandler.getInstance().getCooldown(interaction.user.id, 'rob');
 
-        if(!cooldown || cooldown.isActive())
+        if(cooldown !== null && cooldown.isActive())
         {
             await interaction.reply({
                 embeds: [{

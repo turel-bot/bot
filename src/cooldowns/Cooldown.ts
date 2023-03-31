@@ -33,6 +33,9 @@ class Cooldown implements ICooldown
 
     isActive(): boolean
     {
+        console.log(this.startedAt + this.duration <= Date.now());
+        console.log(`rn ${ Date.now() }`);
+        console.log(`ended ${ this.startedAt + this.duration}`);
         // rn + that time is before rn
         if(this.startedAt + this.duration <= Date.now())
         {
