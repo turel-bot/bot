@@ -2,6 +2,9 @@
 import { CustomError } from '@biased-ts/eor';
 import type { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
 
+/**
+ * @description Represents a DiscordJS <code>Command</code>.
+ */
 class Command
 {
     public readonly data: SlashCommandBuilder;
