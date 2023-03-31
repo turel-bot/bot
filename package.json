@@ -17,7 +17,6 @@
     "@prisma/client": "^4.8.0",
     "@turel/discord-blackjack": "^4.6.0",
     "discord.js": "^14.7.1",
-    "shuffle-array": "^1.0.1",
     "tslib": "^2.4.1"
   },
   "devDependencies": {
