@@ -11,14 +11,8 @@ async function getTag(name: string, guild: string): Promise<OKType<Tag>>
         }
     });
 
-    if(query === null)
-        return {
-            ok: false,
-            data: null
-        };
-
     return {
-        ok: true,
+        ok: query === null,
         data: query
     };
 }
