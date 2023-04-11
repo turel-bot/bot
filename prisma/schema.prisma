@@ -13,7 +13,7 @@ datasource db {
 model User {
   uuid    String       @id @unique @default(cuid())
   id      String       @unique
-  balance BigInt          @default(0)
+  balance BigInt       @default(0)
   levels  GuildLevel[]
 }
 
@@ -22,4 +22,11 @@ model GuildLevel {
   level    Int     @default(0)
   User     User?   @relation(fields: [userUuid], references: [uuid])
   userUuid String?
+}
+
+model Tag {
+  id      String @id @default(cuid())
+  guild   String
+  name    String
+  content String
 }
