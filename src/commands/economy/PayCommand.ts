@@ -59,7 +59,7 @@ class PayCommand extends Command
         }
 
         const executorUser: OKType<DBUser> = await findOrCreateUser(interaction.user.id) as any;
-        if(executorUser.data.balance < amount)
+        if(executorUser!.data!.balance < amount)
         {
             await interaction.reply({
                 embeds: [{
@@ -72,11 +72,11 @@ class PayCommand extends Command
 
         const recievingUser: OKType<DBUser> = await findOrCreateUser(transferUser.id) as any;
 
-        await updateUser(transferUser.id, BigInt((recievingUser.data.balance + BigInt(amount) as any) as bigint));
+        await updateUser(transferUser.id, BigInt((recievingUser!.data!.balance + BigInt(amount) as any) as bigint));
         // i do not fucking care get the fuck out of here eslint
         // stop with this dumb shit wtf
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-        await updateUser(interaction.user.id, BigInt((executorUser.data.balance - BigInt(amount) as any) as any) as bigint);
+        await updateUser(interaction.user.id, BigInt((executorUser!.data!.balance - BigInt(amount) as any) as any) as bigint);
 
         await interaction.reply({
             embeds: [{

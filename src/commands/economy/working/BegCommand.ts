@@ -48,7 +48,7 @@ class BegCommand extends Command
         await interaction.reply(`You begged and recieved ${ amountRecieved.toLocaleString() } bottlecaps!`);
         const fetchUser: OKType<DBUser> = await findOrCreateUser(interaction.user.id) as any;
 
-        await updateUser(interaction.user.id, BigInt(fetchUser.data.balance) + BigInt(amountRecieved));
+        await updateUser(interaction.user.id, BigInt(fetchUser.data!.balance) + BigInt(amountRecieved));
         
         CooldownHandler.getInstance().addCooldown(interaction.user.id, new Cooldown(interaction.user.id, 'beg', 60_000));
     }

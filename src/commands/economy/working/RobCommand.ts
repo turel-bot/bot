@@ -119,16 +119,16 @@ class RobCommand extends Command
         const dbSenderUser: OKType<DBUser> = await findOrCreateUser(interaction.user.id) as any;
         const dbRobbedUser: OKType<DBUser> = await findOrCreateUser(robbedUser.id) as any;
 
-        if(dbRobbedUser.data.balance <= 0)
+        if(dbRobbedUser.data!.balance <= 0)
         {
             await interaction.reply('You tried to rob a homeless person. What\'s wrong with you?');
             return;
         }
 
-        const amountStolen: bigint = BigInt(BigInt(BigInt(Math.floor(Math.random())) * dbRobbedUser.data.balance));
+        const amountStolen: bigint = BigInt(BigInt(BigInt(Math.floor(Math.random())) * dbRobbedUser.data!.balance));
 
-        await updateUser(robbedUser.id, BigInt(dbRobbedUser.data.balance - amountStolen));
-        await updateUser(interaction.user.id, BigInt(dbSenderUser.data.balance + amountStolen));
+        await updateUser(robbedUser.id, BigInt(dbRobbedUser.data!.balance - amountStolen));
+        await updateUser(interaction.user.id, BigInt(dbSenderUser.data!.balance + amountStolen));
 
         await interaction.reply(`You robbed ${ robbedUser } and walked away with ${ amountStolen.toLocaleString() }.`);
         CooldownHandler.getInstance().addCooldown(interaction.user.id, new Cooldown(interaction.user.id, 'rob', 600000));

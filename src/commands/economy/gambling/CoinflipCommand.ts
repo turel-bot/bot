@@ -59,7 +59,7 @@ class CoinflipCommand extends Command
         }
 
         const query: OKType<DBUser> = await findOrCreateUser(interaction.user.id);
-        const user: DBUser = query.data;
+        const user: DBUser = query.data!;
 
         if(!query.ok)
         {
