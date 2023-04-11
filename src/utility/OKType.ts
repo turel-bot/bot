@@ -1,7 +1,7 @@
 interface OKType<B>
 {
     ok: boolean;
-    data: B;
+    data: B | null;
 }
 
 export default OKType;
