@@ -1,4 +1,5 @@
-import { ChatInputCommandInteraction, PermissionsBitField } from 'discord.js';
+import type { ChatInputCommandInteraction} from 'discord.js';
+import { PermissionsBitField } from 'discord.js';
 import { SlashCommandBuilder } from 'discord.js';
 import Command from '../../structures/Command';
 import getTag from 'src/utility/db/getTag';
