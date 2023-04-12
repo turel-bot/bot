@@ -4,7 +4,7 @@ import type OKType from '../OKType';
 import getTag from './getTag';
 import { v4 } from 'uuid';
 
-async function createTag(name: string, guild: string, content: string): Promise<OKType<Tag> | null>
+async function createTag(name: string, guild: string, content: string, author: string): Promise<OKType<Tag> | null>
 {
     const findTag: OKType<Tag> = await getTag(name, guild);
     if(!findTag.ok || findTag === null) return null;
@@ -14,7 +14,8 @@ async function createTag(name: string, guild: string, content: string): Promise<
             id: v4(),
             content: content,
             name: name,
-            guild: guild
+            guild: guild,
+            author: author
         }
     });
 
