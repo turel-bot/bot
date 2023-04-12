@@ -1,6 +1,7 @@
 import type { ChatInputCommandInteraction } from 'discord.js';
 import { SlashCommandBuilder } from 'discord.js';
 import Command from '../../structures/Command';
+import getTag from 'src/utility/db/getTag';
 
 class TagCommand extends Command
 {
@@ -14,18 +15,18 @@ class TagCommand extends Command
                     sub.setName('create')
                         .setDescription('Creates a new tag in this guild.')
                         .addStringOption((str) =>
-                            str.setName('Name')
+                            str.setName('name')
                                 .setDescription('The name of the tag to create.')
                         )
                         .addStringOption((str) =>
-                            str.setName('Content')
+                            str.setName('content')
                                 .setDescription('The content of the tag.'))
                 )
                 .addSubcommand((sub) =>
                     sub.setName('get')
                         .setDescription('Get a specific tag in this guild.')
                         .addStringOption((str) =>
-                            str.setName('Name')
+                            str.setName('name')
                                 .setDescription('The name of the tag to get.')))
                 .addSubcommand((sub) =>
                     sub.setName('delete')
@@ -67,7 +68,18 @@ class TagCommand extends Command
 
     public async getTag(interaction: ChatInputCommandInteraction): Promise<any>
     {
+        const name: string = interaction.options.getString('name', true);
 
+        const tag = await getTag(name, interaction.guildId!);
+        
+        if(tag.ok) 
+        {
+            await interaction.reply({ embeds: [{
+                title: tag.data?.name,
+                description: tag.data?.content
+            }] });
+            return;
+        }
     }
 
     public async createTag(interaction: ChatInputCommandInteraction): Promise<any>

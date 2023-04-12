@@ -18,6 +18,10 @@ async function createTag(name: string, guild: string, content: string): Promise<
         }
     });
 
+    return {
+        ok: true,
+        data: newTag
+    };
 }
 
 export default createTag;
