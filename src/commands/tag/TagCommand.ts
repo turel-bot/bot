@@ -1,4 +1,4 @@
-import type { ChatInputCommandInteraction } from 'discord.js';
+import { ChatInputCommandInteraction, PermissionsBitField } from 'discord.js';
 import { SlashCommandBuilder } from 'discord.js';
 import Command from '../../structures/Command';
 import getTag from 'src/utility/db/getTag';
@@ -64,7 +64,21 @@ class TagCommand extends Command
 
     public async deleteTag(interaction: ChatInputCommandInteraction): Promise<any>
     {
+        if((interaction.member?.permissions as Readonly<PermissionsBitField>).has( PermissionsBitField.Flags.Administrator)) 
+        {
+            await interaction.reply({
+                embeds: [
+                    {
+                        title: ':x: Insufficent permissions.',
+                        description: 'In order to delete a tag, you must be a server administrator.\nSoon you will be able to delete your own tags!'
+                    }
+                ]
+            });
 
+            return;
+        }
+
+        
     }
 
     public async getTag(interaction: ChatInputCommandInteraction): Promise<any>
