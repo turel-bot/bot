@@ -1,8 +1,8 @@
 import type { ChatInputCommandInteraction} from 'discord.js';
+import Command from '../../structures/Command';
 import { PermissionsBitField } from 'discord.js';
 import { SlashCommandBuilder } from 'discord.js';
-import Command from '../../structures/Command';
-import { getTag, createTag } from '../../utility/db';
+import { getTag, createTag, deleteTag } from '../../utility/db';
 
 class TagCommand extends Command
 {
@@ -78,7 +78,18 @@ class TagCommand extends Command
             return;
         }
 
-        
+        const name: string = interaction.options.getString('name', true);
+
+        const tag = await getTag(name, interaction.guildId!);
+
+        if(!tag.ok)
+        {
+            await interaction.reply('Failed to fetch the tag to delete, weird.');
+            console.error('tag was not found when trying to delete it');
+            return;
+        }
+
+        await deleteTag(tag.data!.id);
     }
 
     public async getTag(interaction: ChatInputCommandInteraction): Promise<any>
