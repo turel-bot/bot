@@ -1,6 +1,6 @@
 import type { Tag } from '@prisma/client';
-import { prismaClient } from '../../index';
-import type OKType from '../OKType';
+import { prismaClient } from '../../../index';
+import type OKType from '../../OKType';
 
 async function getTag(name: string, guild: string): Promise<OKType<Tag>>
 {
@@ -18,3 +18,4 @@ async function getTag(name: string, guild: string): Promise<OKType<Tag>>
 }
 
 export default getTag;
+export { getTag };

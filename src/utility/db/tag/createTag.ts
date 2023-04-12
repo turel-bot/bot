@@ -1,6 +1,6 @@
 import type { Tag } from '@prisma/client';
-import { prismaClient } from '../../index';
-import type OKType from '../OKType';
+import { prismaClient } from '../../../index';
+import type OKType from '../../OKType';
 import getTag from './getTag';
 import { v4 } from 'uuid';
 
@@ -26,3 +26,4 @@ async function createTag(name: string, guild: string, content: string, author: s
 }
 
 export default createTag;
+export { createTag };

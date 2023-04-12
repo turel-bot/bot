@@ -1,6 +1,6 @@
 import type { User } from '@prisma/client';
-import { prismaClient } from '../../index';
-import type OKType from '../OKType';
+import { prismaClient } from '../../../index';
+import type OKType from '../../OKType';
 import createUser from './createUser';
 
 async function findOrCreateUser(id: string): Promise<OKType<User>>
@@ -21,3 +21,4 @@ async function findOrCreateUser(id: string): Promise<OKType<User>>
 }
 
 export default findOrCreateUser;
+export { findOrCreateUser };

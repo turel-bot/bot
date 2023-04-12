@@ -1,6 +1,6 @@
-import { prismaClient } from '../../index';
+import { prismaClient } from '../../../index';
 import type { User } from '@prisma/client';
-import type OKType from '../OKType';
+import type OKType from '../../OKType';
 
 async function createUser(id: string): Promise<OKType<User>>
 {
@@ -18,3 +18,4 @@ async function createUser(id: string): Promise<OKType<User>>
 }
 
 export default createUser;
+export { createUser };

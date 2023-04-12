@@ -1,5 +1,5 @@
-import { prismaClient } from '../../index';
-import type OKType from '../OKType';
+import { prismaClient } from '../../../index';
+import type OKType from '../../OKType';
 
 async function deleteTag(id: string): Promise<OKType>
 {
@@ -16,3 +16,4 @@ async function deleteTag(id: string): Promise<OKType>
 }
 
 export default deleteTag;
+export { deleteTag };
