@@ -29,4 +29,5 @@ model Tag {
   guild   String
   name    String
   content String
+  author  String
 }
