@@ -1,4 +1,4 @@
-interface OKType<B>
+interface OKType<B = null>
 {
     ok: boolean;
     data: B | null;
