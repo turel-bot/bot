@@ -2,7 +2,7 @@ import type { ChatInputCommandInteraction} from 'discord.js';
 import { PermissionsBitField } from 'discord.js';
 import { SlashCommandBuilder } from 'discord.js';
 import Command from '../../structures/Command';
-import {  } from '../../utility/db';
+import { getTag, createTag } from '../../utility/db';
 
 class TagCommand extends Command
 {
