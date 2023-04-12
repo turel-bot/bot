@@ -74,17 +74,21 @@ class TagCommand extends Command
         
         if(tag.ok) 
         {
+            const author = await interaction.client.users.fetch(tag.data!.author as string);
             await interaction.reply({ embeds: [{
                 title: tag.data?.name,
-                description: tag.data?.content
+                description: tag.data?.content,
+                footer: { text: `Tag by "${author.tag}"` }
             }] });
             return;
         }
+
+        await interaction.reply({ content: 'No tag was found. :(', ephemeral: true });
     }
 
     public async createTag(interaction: ChatInputCommandInteraction): Promise<any>
     {
-
+        
     }
 }
 
