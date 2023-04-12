@@ -2,10 +2,9 @@ import type TClient from 'src/structures/TClient';
 import type OKType from '../../utility/OKType';
 import type { ChatInputCommandInteraction, User } from 'discord.js';
 import type { User as DBUser } from '@prisma/client';
+import { updateUser, findOrCreateUser } from '../../utility/db';
 import { SlashCommandBuilder } from 'discord.js';
 import Command from '../../structures/Command';
-import findOrCreateUser from '../../utility/db/FindOrCreateUser';
-import { updateUser } from '../../utility/db/updateUser';
 import ParseIntWithCommas from '../../utility/numbers/ParseIntWithCommas';
 
 class BalanceCommand extends Command

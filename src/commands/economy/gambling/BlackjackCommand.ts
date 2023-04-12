@@ -2,10 +2,9 @@
 import type { ChatInputCommandInteraction } from 'discord.js';
 import type { User as DBUser } from '@prisma/client';
 import type OKType from 'src/utility/OKType';
+import { updateUser, findOrCreateUser } from '../../../utility/db';
 import { SlashCommandBuilder } from 'discord.js';
 import Command from '../../../structures/Command';
-import findOrCreateUser from '../../../utility/db/FindOrCreateUser';
-import { updateUser } from '../../../utility/db/updateUser';
 import blackjack from '@turel/discord-blackjack';
 import ParseIntWithCommas from '../../../utility/numbers/ParseIntWithCommas';
 

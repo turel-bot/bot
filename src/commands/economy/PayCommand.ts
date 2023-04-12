@@ -2,9 +2,8 @@ import type { ChatInputCommandInteraction } from 'discord.js';
 import type { User as DBUser } from '@prisma/client';
 import type OKType from 'src/utility/OKType';
 import { SlashCommandBuilder } from 'discord.js';
+import { updateUser, findOrCreateUser } from '../../utility/db';
 import Command from '../../structures/Command';
-import { updateUser } from '../../utility/db/updateUser';
-import findOrCreateUser from '../../utility/db/FindOrCreateUser';
 import ParseIntWithCommas from '../../utility/numbers/ParseIntWithCommas';
 
 class PayCommand extends Command
