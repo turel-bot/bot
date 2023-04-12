@@ -2,6 +2,7 @@ import type { ChatInputCommandInteraction } from 'discord.js';
 import { SlashCommandBuilder } from 'discord.js';
 import Command from '../../structures/Command';
 import getTag from 'src/utility/db/getTag';
+import createTag from 'src/utility/db/createTag';
 
 class TagCommand extends Command
 {
@@ -88,7 +89,26 @@ class TagCommand extends Command
 
     public async createTag(interaction: ChatInputCommandInteraction): Promise<any>
     {
-        
+        const name: string = interaction.options.getString('name', true);
+        const content: string = interaction.options.getString('content', true);
+        const author: string = interaction.user.id;
+
+        const tag = await createTag(name, content, interaction.guildId!, author);
+
+        if(!tag?.ok)
+        {
+            await interaction.reply({ content: 'Failed to create tag, weird. Are you sure there isn\'t a tag with that name already?', ephemeral: true });
+            return;
+        }
+
+        await interaction.reply({
+            content: 'Created new tag! Preview:',
+            embeds: [{
+                title: tag.data?.name,
+                description: tag.data?.content,
+                footer: { text: `Tag by "${ interaction.user.tag }"` }
+            }]
+        });
     }
 }
 
