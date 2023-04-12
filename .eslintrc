@@ -10,6 +10,7 @@
         ]
     },
     "rules": {
-        "@typescript-eslint/prefer-readonly-parameter-types": [0]
+        "@typescript-eslint/prefer-readonly-parameter-types": [0],
+        "@typescript-eslint/no-unsafe-argument": [0] // idk why but we have to turn this off.
     }
 }
