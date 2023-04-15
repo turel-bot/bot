@@ -111,7 +111,7 @@ class TClient extends Client
                     await registeredEvent.execute(this, args)
                 );
 
-                console.log(`✔ Loaded event ${ registeredEvent.name }.`);
+                console.log(`${ chalk.green('✔')} Loaded event ${ registeredEvent.name }.`);
             }
             else if(lstatSync(path).isDirectory())
             {
