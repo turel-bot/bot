@@ -5,6 +5,7 @@ import { lstatSync, readdirSync } from 'fs';
 import { join } from 'path';
 import type Command from './Command';
 import type Event from './Event';
+import chalk from 'chalk';
 
 interface Directories
 {
@@ -80,7 +81,7 @@ class TClient extends Client
                 const registeredCommand: Command = await (import(path) as any);
                 // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
                 this.commands.set((registeredCommand as any).default.data.name, (registeredCommand as any).default);
-                console.log(`✔ Loaded command ${ (registeredCommand as any).default.data.name }.`);
+                console.log(`${ chalk.green('✔')} Loaded command ${ (registeredCommand as any).default.data.name }.`);
             }
             else if(lstatSync(path).isDirectory())
             {

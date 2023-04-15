@@ -16,6 +16,7 @@
     "@biased-ts/eor": "^0.0.2",
     "@prisma/client": "^4.8.0",
     "@turel/discord-blackjack": "^4.6.0",
+    "chalk": "^4.0.0",
     "discord.js": "^14.7.1",
     "dotenv": "^16.0.3",
     "tslib": "^2.4.1"
