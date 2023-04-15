@@ -45,7 +45,7 @@ class Cooldown implements ICooldown
      * @description Date time check to see if a command cooldown is still active.
      * @returns {boolean} Returns true if the cooldown is still active, and false is it is inactive.
      */
-    isActive(): boolean
+    public isActive(): boolean
     {
         // rn + that time is before rn
         if(this.startedAt + this.duration <= Date.now())
