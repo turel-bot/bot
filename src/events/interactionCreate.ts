@@ -23,6 +23,7 @@ class interactionCreate extends Event
 
             try
             {
+                client.emit('debug', `Executed command ${command.data.name}`);
                 await command.execute(interaction);
             }
             catch(error: any)
