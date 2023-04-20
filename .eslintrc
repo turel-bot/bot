@@ -1,4 +1,7 @@
 {
+    "ignorePatterns": [
+        "scripts/**/*.js"
+    ],
     "extends": [
         "@biased-ts/eslint-config/ProperTS",
         "@biased-ts/eslint-config/ProperDoc"
