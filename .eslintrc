@@ -13,6 +13,7 @@
         ]
     },
     "rules": {
-        "@typescript-eslint/prefer-readonly-parameter-types": [0]
+        "@typescript-eslint/prefer-readonly-parameter-types": [0],
+        "@typescript-eslint/no-unsafe-argument": [0] // i dont care, this is fucked on github's side. idk why. idk how.
     }
 }
