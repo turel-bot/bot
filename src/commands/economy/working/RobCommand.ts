@@ -8,20 +8,24 @@ import findOrCreateUser from '../../../utility/db/FindOrCreateUser';
 import CooldownHandler from '../../../cooldowns/CooldownHandler';
 import Cooldown from '../../../cooldowns/Cooldown';
 
-const failMessages: string[] = [
+const failMessages: readonly string[] = [
     'You fumbled the bag.',
     ':x: Failed to rob them.',
     '{0} pulled out a gun and blickied you.',
     'You tripped while trying to mug {0} and they ran away!'
-];
+] as const;
 
-const robbedBack: string[] = [
-    'You dropped the gun while trying to rob {0} and he picked it up and robbed you.'
-];
+const robbedBackMessages: readonly string[] = [
+    'You dropped the gun while trying to rob {0} and he picked it up and robbed you of {1}.',
+    'How you just fail to rob someone? {0} stole {1} from you.',
+    '{0} stole {1} from you, improve.',
+    'Owch, you suck at your job. {0} stole {1}.'
+] as const;
 
-function getFailMessage(array: string[], user: User): string
+function getFailMessage(array: readonly string[], user: User): string
 {
-    return array[Math.floor(Math.random() * array.length)].replace('{0}', `<@${ user.id }>`);
+    return array[Math.floor(Math.random() * array.length)]
+        .replace('{0}', `<@${ user.id }>`);
 }
 
 class RobCommand extends Command
@@ -92,22 +96,22 @@ class RobCommand extends Command
 
         if(!isAllowed)
         {
-            const robbedYourAssBack: boolean = Math.random() > 0.25;
+            const didRobBack: boolean = Math.random() > 0.25;
 
-            if(robbedYourAssBack)
+            if(didRobBack)
             {
-                const dbSenderUser: { ok: true, user: { balance: bigint; }; } = await findOrCreateUser(interaction.user.id) as any;
-                const dbRobbedUser: { ok: true, user: { balance: bigint; }; } = await findOrCreateUser(robbedUser.id) as any;
+                const dbSenderUser: OKType<DBUser> = await findOrCreateUser(interaction.user.id);
+                const dbRobbedUser: OKType<DBUser> = await findOrCreateUser(robbedUser.id);
 
-                if(dbRobbedUser.user.balance <= 0)
+                if(dbRobbedUser.data.balance <= 0)
                     return;
 
-                const amountStolen: number = Math.floor(Math.random() * Number(dbSenderUser.user.balance));
+                const amountStolen: number = Math.floor(Math.random() * Number(dbSenderUser.data.balance));
 
-                await updateUser(robbedUser.id, BigInt(dbRobbedUser.user.balance) + BigInt(amountStolen));
-                await updateUser(interaction.user.id, BigInt(dbSenderUser.user.balance) - BigInt(amountStolen));
+                await updateUser(robbedUser.id, BigInt(dbRobbedUser.data.balance) + BigInt(amountStolen));
+                await updateUser(interaction.user.id, BigInt(dbSenderUser.data.balance) - BigInt(amountStolen));
 
-                await interaction.reply(`${ getFailMessage(robbedBack, robbedUser) }\n${ robbedUser } took ${ amountStolen.toLocaleString() }`);
+                await interaction.reply(`${ getFailMessage(robbedBackMessages, robbedUser).replace('{1}', amountStolen.toLocaleString()) }`);
                 return;
             }
 
