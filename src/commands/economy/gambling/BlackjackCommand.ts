@@ -45,7 +45,18 @@ class CoinflipCommand extends Command
                 break;
             }
 
-            default: {
+            case 'BLACKJACK': {
+                if(amount > 0)
+                    await updateUser(interaction.user.id, BigInt(fetchedUser.data.balance + BigInt(amount)) * BigInt(2.5));
+                break;
+            }
+
+            case 'TIE': {
+                // no reward on tie, but you dont lose anything
+                break;
+            }
+
+            case 'None': default: {
                 break;
             }
         }
