@@ -72,11 +72,8 @@ class PayCommand extends Command
 
         const recievingUser: OKType<DBUser> = await findOrCreateUser(transferUser.id) as any;
 
-        await updateUser(transferUser.id, BigInt((recievingUser.data.balance + BigInt(amount) as any) as bigint));
-        // i do not fucking care get the fuck out of here eslint
-        // stop with this dumb shit wtf
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-        await updateUser(interaction.user.id, BigInt((executorUser.data.balance - BigInt(amount) as any) as any) as bigint);
+        await updateUser(transferUser.id, BigInt((recievingUser.data.balance + BigInt(amount))));
+        await updateUser(interaction.user.id, BigInt((executorUser.data.balance - BigInt(amount))));
 
         await interaction.reply({
             embeds: [{
