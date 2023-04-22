@@ -58,7 +58,7 @@ class PayCommand extends Command
             return;
         }
 
-        const executorUser: OKType<DBUser> = await findOrCreateUser(interaction.user.id) as any;
+        const executorUser: OKType<DBUser> = await findOrCreateUser(interaction.user.id);
         if(executorUser.data.balance < amount)
         {
             await interaction.reply({
@@ -70,7 +70,7 @@ class PayCommand extends Command
             return;
         }
 
-        const recievingUser: OKType<DBUser> = await findOrCreateUser(transferUser.id) as any;
+        const recievingUser: OKType<DBUser> = await findOrCreateUser(transferUser.id);
 
         await updateUser(transferUser.id, BigInt((recievingUser.data.balance + BigInt(amount))));
         await updateUser(interaction.user.id, BigInt((executorUser.data.balance - BigInt(amount))));
