@@ -129,7 +129,7 @@ class RobCommand extends Command
             return;
         }
 
-        const amountStolen: bigint = BigInt(BigInt(BigInt(Math.floor(Math.random())) * dbRobbedUser.data.balance));
+        const amountStolen: bigint = BigInt(Math.floor(Math.random())) * dbRobbedUser.data.balance;
 
         await updateUser(robbedUser.id, BigInt(dbRobbedUser.data.balance - amountStolen));
         await updateUser(interaction.user.id, BigInt(dbSenderUser.data.balance + amountStolen));
