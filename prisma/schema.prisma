@@ -10,6 +10,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Status {
+  shard Int @id @unique @default(0)
+  text String @default("on a Razer Gaming Phone")
+  type Int @default(1) // https://discord.com/developers/docs/topics/gateway-events#activity-object-activity-types
+  url String? @default("https://twitch.tv/turelbot")
+}
+
 model User {
   uuid    String       @id @unique @default(cuid())
   id      String       @unique
