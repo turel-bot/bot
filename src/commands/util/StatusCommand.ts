@@ -1,7 +1,8 @@
 import type { ChatInputCommandInteraction } from 'discord.js';
-import { ActivityType } from 'discord.js';
 import { SlashCommandBuilder } from 'discord.js';
 import Command from '../../structures/Command';
+import { prismaClient } from '../../index';
+
 
 class StatusCommand extends Command
 {
@@ -15,15 +16,15 @@ class StatusCommand extends Command
                         .setDescription('What to set the status message to.')
                         .setRequired(true)
                 )
-                .addStringOption(opt =>
+                .addNumberOption(opt =>
                     opt.setName('type')
                         .setDescription('What type of status is it?')
                         .addChoices(
-                            { name: 'Playing', value: 'Playing' },
-                            { name: 'Streaming', value: 'Streaming' },
-                            { name: 'Listening', value: 'Listening' },
-                            { name: 'Watching', value: 'Watching' },
-                            { name: 'Competing', value: 'Competing' },
+                            { name: 'Playing', value: 0 },
+                            { name: 'Streaming', value: 1 },
+                            { name: 'Listening', value: 2 },
+                            { name: 'Watching', value: 3 },
+                            { name: 'Competing', value: 5 },
                         )
                 )
                 .setDescription('Change the status of the bot.')
@@ -33,7 +34,7 @@ class StatusCommand extends Command
     public async execute(interaction: ChatInputCommandInteraction): Promise<any>
     {
         const message: string = interaction.options.getString('message', true);
-        const type: string = interaction.options.getString('type', true);
+        const type: number = interaction.options.getNumber('type', true);
 
         if(interaction.user.id !== '327639826075484162' && interaction.user.id !== '949101689393254401')
         {
@@ -48,13 +49,26 @@ class StatusCommand extends Command
         }
 
         // I love the type system! The type system is so fun!
-        interaction.client.user.setActivity(message, { type: ActivityType[type as any] as any });
+        interaction.client.user.setActivity(message, { type: type });
         await interaction.reply({
             embeds: [{
                 title: 'Status Updated!',
                 description: `New Status: ${ type } ${ message }`
             }]
         });
+
+        await prismaClient.status.update({
+            data: {
+                shard: 0,
+                text: message,
+                type: type,
+                url: 'https://twitch.tv/turelbot'
+            },
+            where: {
+                shard: 0
+            }
+        });
+        
     }
 }
 
