@@ -11,7 +11,7 @@
   },
   "keywords": [],
   "author": "turel-bot",
-  "license": "Unlicence",
+  "license": "MIT",
   "dependencies": {
     "@biased-ts/eor": "^0.0.2",
     "@prisma/client": "^4.8.0",
