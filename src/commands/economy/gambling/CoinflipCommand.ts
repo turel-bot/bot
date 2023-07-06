@@ -7,10 +7,8 @@ import findOrCreateUser from '../../../utility/db/FindOrCreateUser';
 import { updateUser } from '../../../utility/db/updateUser';
 import ParseIntWithCommas from '../../../utility/numbers/ParseIntWithCommas';
 
-class CoinflipCommand extends Command
-{
-    public constructor()
-    {
+class CoinflipCommand extends Command {
+    public constructor() {
         super(
             new SlashCommandBuilder()
                 .setName('coinflip')
@@ -33,21 +31,18 @@ class CoinflipCommand extends Command
         );
     }
 
-    public async execute(interaction: ChatInputCommandInteraction): Promise<any>
-    {
+    public async execute(interaction: ChatInputCommandInteraction): Promise<any> {
         const amount = ParseIntWithCommas(interaction.options.getInteger('amount', false)!);
         const side = interaction.options.getString('side', true);
 
-        if(side.toLowerCase() !== 'heads' && side.toLowerCase() !== 'tails')
-        {
+        if(side.toLowerCase() !== 'heads' && side.toLowerCase() !== 'tails') {
             await interaction.reply({ content: `The provided side \`${ side }\` is not a valid side.`, ephemeral: true });
             return;
         }
 
         const won: boolean = side === (Math.random() < 0.5 ? 'Heads' : 'Tails');
 
-        if(amount === null || amount <= 0)
-        {
+        if(amount === null || amount <= 0) {
             await interaction.reply({
                 embeds: [{
                     title: `${ won ? 'You won!' : 'You lost!' }`,
@@ -61,14 +56,12 @@ class CoinflipCommand extends Command
         const query: OKType<DBUser> = await findOrCreateUser(interaction.user.id);
         const user: DBUser = query.data;
 
-        if(!query.ok)
-        {
+        if(!query.ok) {
             await interaction.reply({ content: 'Failed to fetch your details. Try again later.', ephemeral: true });
             return;
         }
 
-        if(amount > user.balance)
-        {
+        if(amount > user.balance) {
             await interaction.reply({
                 embeds: [{
                     title: `:x: Lack of currency.`,

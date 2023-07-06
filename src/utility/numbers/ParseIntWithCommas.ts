@@ -3,8 +3,7 @@
  * @param {string | bigint | number} int - the number 
  * @returns the number but like without commas and as a number type
  */
-const ParseIntWithCommas = <T extends bigint | number>(int: string | T): T | null =>
-{
+const ParseIntWithCommas = <T extends bigint | number>(int: string | T): T | null => {
     if(typeof int === 'undefined' || (!int && int !== 0))
         return null;
 

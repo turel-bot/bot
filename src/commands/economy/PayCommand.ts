@@ -7,10 +7,8 @@ import { updateUser } from '../../utility/db/updateUser';
 import findOrCreateUser from '../../utility/db/FindOrCreateUser';
 import ParseIntWithCommas from '../../utility/numbers/ParseIntWithCommas';
 
-class PayCommand extends Command
-{
-    public constructor()
-    {
+class PayCommand extends Command {
+    public constructor() {
         super(
             new SlashCommandBuilder()
                 .setName('pay')
@@ -30,13 +28,11 @@ class PayCommand extends Command
         );
     }
 
-    public async execute(interaction: ChatInputCommandInteraction): Promise<any>
-    {
+    public async execute(interaction: ChatInputCommandInteraction): Promise<any> {
         const transferUser = interaction.options.getUser('user', true);
         const amount = ParseIntWithCommas(interaction.options.getInteger('amount', true));
 
-        if(amount === null)
-        {
+        if(amount === null) {
             await interaction.reply({
                 embeds: [{
                     title: 'Expected a number value to be passed to \`amount\`.'
@@ -47,8 +43,7 @@ class PayCommand extends Command
             return;
         }
 
-        if(amount <= 0 || isNaN(amount))
-        {
+        if(amount <= 0 || isNaN(amount)) {
             await interaction.reply({
                 embeds: [{
                     title: ':x: Cannot send somebody less than or equal to 0 bottlecaps.'
@@ -59,8 +54,7 @@ class PayCommand extends Command
         }
 
         const executorUser: OKType<DBUser> = await findOrCreateUser(interaction.user.id);
-        if(executorUser.data.balance < amount)
-        {
+        if(executorUser.data.balance < amount) {
             await interaction.reply({
                 embeds: [{
                     title: ':x: You cannot afford to transfer that many bottlecaps.'

@@ -7,10 +7,8 @@ import deployCommands from '../../utility/DeployCommands';
 import type TClient from '../../structures/TClient';
 import Command from '../../structures/Command';
 
-class DeploymentCommand extends Command
-{
-    public constructor()
-    {
+class DeploymentCommand extends Command {
+    public constructor() {
         super(
             new SlashCommandBuilder()
                 .setName('deploy')
@@ -33,10 +31,8 @@ class DeploymentCommand extends Command
         );
     }
 
-    public async execute(interaction: ChatInputCommandInteraction): Promise<any>
-    {
-        if(interaction.user.id !== '327639826075484162' && interaction.user.id !== '949101689393254401')
-        {
+    public async execute(interaction: ChatInputCommandInteraction): Promise<any> {
+        if(interaction.user.id !== '327639826075484162' && interaction.user.id !== '949101689393254401') {
             await interaction.reply({
                 embeds: [
                     {
@@ -49,8 +45,7 @@ class DeploymentCommand extends Command
 
         const subcommand: string = interaction.options.getSubcommand();
 
-        switch(subcommand.toLowerCase())
-        {
+        switch(subcommand.toLowerCase()) {
             case 'guild':
                 {
                     const amount: number = await deployCommands(process.env.CLIENT_ID as string, interaction.client.token, (interaction.client as TClient).commands, interaction.guild?.id);

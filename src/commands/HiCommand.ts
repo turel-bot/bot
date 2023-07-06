@@ -3,10 +3,8 @@ import { ButtonBuilder, ButtonStyle } from 'discord.js';
 import { SlashCommandBuilder, ActionRowBuilder } from 'discord.js';
 import Command from '../structures/Command';
 
-class HiCommand extends Command
-{
-    public constructor()
-    {
+class HiCommand extends Command {
+    public constructor() {
         super(
             new SlashCommandBuilder()
                 .setName('hi')
@@ -14,8 +12,7 @@ class HiCommand extends Command
         );
     }
 
-    public async execute(interaction: ChatInputCommandInteraction): Promise<any>
-    {
+    public async execute(interaction: ChatInputCommandInteraction): Promise<any> {
         const row = new ActionRowBuilder()
             .addComponents(
                 new ButtonBuilder()

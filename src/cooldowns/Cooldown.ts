@@ -16,8 +16,7 @@ interface ICooldown
  * @description represents a user's cooldown status per command
  * @author AceLikesGhosts
  */
-class Cooldown implements ICooldown
-{
+class Cooldown implements ICooldown {
     /** @description The ID of the user the cooldown is assigned to. */
     public userId: string;
     /** @description The name of the command. */
@@ -33,8 +32,7 @@ class Cooldown implements ICooldown
      * @param {string} commandName - 
      * @param {number} duration - How long the cooldown should last in seconds. 
      */
-    public constructor(userId: string, commandName: string, duration: number)
-    {
+    public constructor(userId: string, commandName: string, duration: number) {
         this.commandName = commandName;
         this.userId = userId;
         this.duration = duration;
@@ -45,11 +43,9 @@ class Cooldown implements ICooldown
      * @description Date time check to see if a command cooldown is still active.
      * @returns {boolean} Returns true if the cooldown is still active, and false is it is inactive.
      */
-    public isActive(): boolean
-    {
+    public isActive(): boolean {
         // rn + that time is before rn
-        if(this.startedAt + this.duration <= Date.now())
-        {
+        if(this.startedAt + this.duration <= Date.now()) {
             CooldownHandler.getInstance().removeCooldown(this.userId, this);
             return false;
         }

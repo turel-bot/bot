@@ -8,10 +8,8 @@ import findOrCreateUser from '../../../utility/db/FindOrCreateUser';
 import CooldownHandler from '../../../cooldowns/CooldownHandler';
 import Cooldown from '../../../cooldowns/Cooldown';
 
-class BegCommand extends Command
-{
-    public constructor()
-    {
+class BegCommand extends Command {
+    public constructor() {
         super(
             new SlashCommandBuilder()
                 .setName('beg')
@@ -19,13 +17,11 @@ class BegCommand extends Command
         );
     }
 
-    public async execute(interaction: ChatInputCommandInteraction): Promise<any>
-    {
+    public async execute(interaction: ChatInputCommandInteraction): Promise<any> {
         // 1m
         const cooldown: Cooldown | null = CooldownHandler.getInstance().getCooldown(interaction.user.id, 'beg');
 
-        if(cooldown !== null && cooldown.isActive())
-        {
+        if(cooldown !== null && cooldown.isActive()) {
             await interaction.reply({
                 embeds: [{
                     title: ':x: You are currently on cooldown.',
@@ -37,8 +33,7 @@ class BegCommand extends Command
 
         const isAllowed: boolean = Math.random() < 0.5;
 
-        if(!isAllowed)
-        {
+        if(!isAllowed) {
             await interaction.reply('You begged and got nothing. Go get a job.');
             return;
         }

@@ -4,10 +4,8 @@ import Command from '../../structures/Command';
 import { prismaClient } from '../../index';
 
 
-class StatusCommand extends Command
-{
-    public constructor()
-    {
+class StatusCommand extends Command {
+    public constructor() {
         super(
             new SlashCommandBuilder()
                 .setName('status')
@@ -31,13 +29,11 @@ class StatusCommand extends Command
         );
     }
 
-    public async execute(interaction: ChatInputCommandInteraction): Promise<any>
-    {
+    public async execute(interaction: ChatInputCommandInteraction): Promise<any> {
         const message: string = interaction.options.getString('message', true);
         const type: number = interaction.options.getNumber('type', true);
 
-        if(interaction.user.id !== '327639826075484162' && interaction.user.id !== '949101689393254401')
-        {
+        if(interaction.user.id !== '327639826075484162' && interaction.user.id !== '949101689393254401') {
             await interaction.reply({
                 embeds: [
                     {

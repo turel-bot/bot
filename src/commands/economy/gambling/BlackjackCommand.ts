@@ -9,10 +9,8 @@ import { updateUser } from '../../../utility/db/updateUser';
 import blackjack from '@turel/discord-blackjack';
 import ParseIntWithCommas from '../../../utility/numbers/ParseIntWithCommas';
 
-class CoinflipCommand extends Command
-{
-    public constructor()
-    {
+class CoinflipCommand extends Command {
+    public constructor() {
         super(
             new SlashCommandBuilder()
                 .setName('blackjack')
@@ -25,14 +23,12 @@ class CoinflipCommand extends Command
         );
     }
 
-    public async execute(interaction: ChatInputCommandInteraction): Promise<any>
-    {
+    public async execute(interaction: ChatInputCommandInteraction): Promise<any> {
         const game = await blackjack(interaction);
         const amount: number = ParseIntWithCommas(interaction.options.getInteger('amount', false)!) ?? 0;
         const fetchedUser: OKType<DBUser> = await findOrCreateUser(interaction.user.id) as any;
 
-        switch(game.result)
-        {
+        switch(game.result) {
             case 'WIN': {
                 if(amount > 0)
                     await updateUser(interaction.user.id, BigInt(fetchedUser.data.balance + BigInt(amount)) * BigInt(2));

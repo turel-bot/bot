@@ -3,8 +3,7 @@ import { prismaClient } from '../../index';
 import type OKType from '../OKType';
 import createUser from './createUser';
 
-async function findOrCreateUser(id: string): Promise<OKType<User>>
-{
+async function findOrCreateUser(id: string): Promise<OKType<User>> {
     const query = await prismaClient.user.findFirst({
         where: {
             id: id

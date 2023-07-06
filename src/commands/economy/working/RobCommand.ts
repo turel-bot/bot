@@ -22,16 +22,13 @@ const robbedBackMessages: readonly string[] = [
     'Owch, you suck at your job. {0} stole {1}.'
 ] as const;
 
-function getFailMessage(array: readonly string[], user: User): string
-{
+function getFailMessage(array: readonly string[], user: User): string {
     return array[Math.floor(Math.random() * array.length)]
         .replace('{0}', `<@${ user.id }>`);
 }
 
-class RobCommand extends Command
-{
-    public constructor()
-    {
+class RobCommand extends Command {
+    public constructor() {
         super(
             new SlashCommandBuilder()
                 .setName('rob')
@@ -45,13 +42,11 @@ class RobCommand extends Command
         );
     }
 
-    public async execute(interaction: ChatInputCommandInteraction): Promise<any>
-    {
+    public async execute(interaction: ChatInputCommandInteraction): Promise<any> {
         // 10m
         const cooldown: Cooldown | null = CooldownHandler.getInstance().getCooldown(interaction.user.id, 'rob');
 
-        if(cooldown !== null && cooldown.isActive())
-        {
+        if(cooldown !== null && cooldown.isActive()) {
             await interaction.reply({
                 embeds: [{
                     title: ':x: You are currently on cooldown.',
@@ -63,8 +58,7 @@ class RobCommand extends Command
 
         const robbedUser: User = interaction.options.getUser('user', true);
 
-        if(interaction.user.id === robbedUser.id)
-        {
+        if(interaction.user.id === robbedUser.id) {
             await interaction.reply({
                 embeds: [{
                     title: ':x: Cannot rob yourself.'
@@ -76,8 +70,7 @@ class RobCommand extends Command
 
         const isAllowed: boolean = Math.random() < 0.4;
 
-        if(robbedUser.id === interaction.client.user.id)
-        {
+        if(robbedUser.id === interaction.client.user.id) {
             await updateUser(interaction.user.id, BigInt(0));
             await interaction.reply({
                 embeds: [{
@@ -94,12 +87,10 @@ class RobCommand extends Command
             return;
         }
 
-        if(!isAllowed)
-        {
+        if(!isAllowed) {
             const didRobBack: boolean = Math.random() > 0.25;
 
-            if(didRobBack)
-            {
+            if(didRobBack) {
                 const dbSenderUser: OKType<DBUser> = await findOrCreateUser(interaction.user.id);
                 const dbRobbedUser: OKType<DBUser> = await findOrCreateUser(robbedUser.id);
 
@@ -123,8 +114,7 @@ class RobCommand extends Command
         const dbSenderUser: OKType<DBUser> = await findOrCreateUser(interaction.user.id) as any;
         const dbRobbedUser: OKType<DBUser> = await findOrCreateUser(robbedUser.id) as any;
 
-        if(dbRobbedUser.data.balance <= 0)
-        {
+        if(dbRobbedUser.data.balance <= 0) {
             await interaction.reply('You tried to rob a homeless person. What\'s wrong with you?');
             return;
         }

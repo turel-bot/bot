@@ -8,10 +8,8 @@ import findOrCreateUser from '../../utility/db/FindOrCreateUser';
 import { updateUser } from '../../utility/db/updateUser';
 import ParseIntWithCommas from '../../utility/numbers/ParseIntWithCommas';
 
-class BalanceCommand extends Command
-{
-    public constructor()
-    {
+class BalanceCommand extends Command {
+    public constructor() {
         super(
             new SlashCommandBuilder()
                 .setName('balance')
@@ -28,21 +26,18 @@ class BalanceCommand extends Command
         );
     }
 
-    public async execute(interaction: ChatInputCommandInteraction): Promise<any>
-    {
+    public async execute(interaction: ChatInputCommandInteraction): Promise<any> {
         const iUser = interaction.options.getUser('user', false) ?? interaction.user;
         const amount = ParseIntWithCommas(interaction.options.getInteger('amount', false)!);
 
         const query: OKType<DBUser> = await findOrCreateUser(iUser.id);
 
-        if(!query.ok)
-        {
+        if(!query.ok) {
             await interaction.reply({ content: 'Failed to fetch your details. Try again later.', ephemeral: true });
             return;
         }
 
-        if(amount !== null && amount >= 0)
-        {
+        if(amount !== null && amount >= 0) {
             await this.updateBalance(interaction, iUser, query);
             return;
         }
@@ -50,16 +45,13 @@ class BalanceCommand extends Command
         await this.sendBalance(interaction, iUser, query);
     }
 
-    public async updateBalance(interaction: ChatInputCommandInteraction, iUser: User, query: OKType<DBUser>)
-    {
-        if(query === null)
-        {
+    public async updateBalance(interaction: ChatInputCommandInteraction, iUser: User, query: OKType<DBUser>) {
+        if(query === null) {
             await interaction.reply({ content: 'Failed to fetch your details. Try again later.', ephemeral: true });
             return;
         }
 
-        if(!(interaction.client as TClient).isOwner(interaction.user.id))
-        {
+        if(!(interaction.client as TClient).isOwner(interaction.user.id)) {
             await interaction.reply({
                 embeds: [
                     {
@@ -76,10 +68,8 @@ class BalanceCommand extends Command
         await interaction.reply({ content: `Set ${ iUser.username }'s balance to ${ newUser.balance.toLocaleString() }.` });
     }
 
-    public async sendBalance(interaction: ChatInputCommandInteraction, iUser: User, query: OKType<DBUser>)
-    {
-        if(query === null)
-        {
+    public async sendBalance(interaction: ChatInputCommandInteraction, iUser: User, query: OKType<DBUser>) {
+        if(query === null) {
             await interaction.reply({ content: 'Failed to fetch your details. Try again later.', ephemeral: true });
             return;
         }
