@@ -1,7 +1,5 @@
 'use strict';
 
-const {exit} = require('process');
-
 /** @private @constant */
 var green = '\x1b[32m';
 /** @private @constant */
@@ -12,6 +10,8 @@ var reset = '\x1b[0m';
 const exec = require('child_process').exec;
 /** @private @constant */
 const join = require('path').join;
+/** @private @constant */
+const exit = require('process').exit;
 /**
  * @param {string} c 
  * @param {string} t 
