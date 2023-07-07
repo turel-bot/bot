@@ -27,7 +27,7 @@ const DeploymentCommand: Command = {
         .setDescription('Redeploy slash commands through a command!'),
 
     async execute(interaction: ChatInputCommandInteraction) {
-        if(interaction.user.id !== '327639826075484162' && interaction.user.id !== '949101689393254401') {
+        if(!(interaction.client as TClient).isOwner(interaction.user.id)) {
             await interaction.reply({
                 embeds: [
                     {
