@@ -1,42 +1,37 @@
+import type OKType from '../../../utility/OKType';
+import type Command from '../../../structures/Command';
 import type { ChatInputCommandInteraction } from 'discord.js';
 import type { User as DBUser } from '@prisma/client';
-import type OKType from '../../../utility/OKType';
-import { SlashCommandBuilder } from 'discord.js';
-import Command from '../../../structures/Command';
 import findOrCreateUser from '../../../utility/db/FindOrCreateUser';
-import { updateUser } from '../../../utility/db/updateUser';
 import ParseIntWithCommas from '../../../utility/numbers/ParseIntWithCommas';
+import { updateUser } from '../../../utility/db/updateUser';
+import { SlashCommandBuilder } from 'discord.js';
 
-class CoinflipCommand extends Command {
-    public constructor() {
-        super(
-            new SlashCommandBuilder()
-                .setName('coinflip')
-                .addStringOption(
-                    input =>
-                        input.setName('side')
-                            .setDescription('The side to bet on.')
-                            .addChoices(
-                                { name: 'Heads', value: 'Heads' },
-                                { name: 'Tails', value: 'Tails' }
-                            )
-                            .setRequired(true)
-                )
-                .addIntegerOption(
-                    input =>
-                        input.setName('amount')
-                            .setDescription('The amount to gamble!')
-                )
-                .setDescription('Gamble!')
-        );
-    }
-
-    public async execute(interaction: ChatInputCommandInteraction): Promise<any> {
+const CoinflipCommand: Command = {
+    data: new SlashCommandBuilder()
+        .setName('coinflip')
+        .addStringOption(
+            input =>
+                input.setName('side')
+                    .setDescription('The side to bet on.')
+                    .addChoices(
+                        { name: 'Heads', value: 'Heads' },
+                        { name: 'Tails', value: 'Tails' }
+                    )
+                    .setRequired(true)
+        )
+        .addIntegerOption(
+            input =>
+                input.setName('amount')
+                    .setDescription('The amount to gamble!')
+        )
+        .setDescription('Gamble!'),
+    async execute(interaction: ChatInputCommandInteraction): Promise<void> {
         const amount = ParseIntWithCommas(interaction.options.getInteger('amount', false)!);
         const side = interaction.options.getString('side', true);
 
         if(side.toLowerCase() !== 'heads' && side.toLowerCase() !== 'tails') {
-            await interaction.reply({ content: `The provided side \`${ side }\` is not a valid side.`, ephemeral: true });
+            await interaction.reply({ content: `The provided side \`${side}\` is not a valid side.`, ephemeral: true });
             return;
         }
 
@@ -45,7 +40,7 @@ class CoinflipCommand extends Command {
         if(amount === null || amount <= 0) {
             await interaction.reply({
                 embeds: [{
-                    title: `${ won ? 'You won!' : 'You lost!' }`,
+                    title: `${won ? 'You won!' : 'You lost!'}`,
                     description: 'You did not bet, not losing or gaining anything. Try betting next time?'
                 }]
             });
@@ -74,8 +69,8 @@ class CoinflipCommand extends Command {
 
         await interaction.reply({
             embeds: [{
-                title: `${ won ? 'You won!' : 'You lost!' }`,
-                description: `${ won ? 'You won ' + (amount * 2).toLocaleString() + ' bottlecaps!' : 'You lost ' + amount + ' bottlecaps. :(' }`
+                title: `${won ? 'You won!' : 'You lost!'}`,
+                description: `${won ? 'You won ' + (amount * 2).toLocaleString() + ' bottlecaps!' : 'You lost ' + amount + ' bottlecaps. :('}`
             }]
         });
 
@@ -83,7 +78,7 @@ class CoinflipCommand extends Command {
             await updateUser(interaction.user.id, BigInt(user.balance + BigInt(amount)) * BigInt(2));
         else
             await updateUser(interaction.user.id, BigInt(user.balance) - BigInt(amount));
-    }
-}
+    },
+} as const;
 
-export default new CoinflipCommand();
+export default CoinflipCommand;

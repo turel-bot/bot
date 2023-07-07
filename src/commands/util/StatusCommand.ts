@@ -1,35 +1,31 @@
 import type { ChatInputCommandInteraction } from 'discord.js';
+import type Command from '../../structures/Command';
 import { SlashCommandBuilder } from 'discord.js';
-import Command from '../../structures/Command';
 import { prismaClient } from '../../index';
 
 
-class StatusCommand extends Command {
-    public constructor() {
-        super(
-            new SlashCommandBuilder()
-                .setName('status')
-                .addStringOption(opt =>
-                    opt.setName('message')
-                        .setDescription('What to set the status message to.')
-                        .setRequired(true)
+const StatusCommand: Command = {
+    data: new SlashCommandBuilder()
+        .setName('status')
+        .addStringOption(opt =>
+            opt.setName('message')
+                .setDescription('What to set the status message to.')
+                .setRequired(true)
+        )
+        .addNumberOption(opt =>
+            opt.setName('type')
+                .setDescription('What type of status is it?')
+                .addChoices(
+                    { name: 'Playing', value: 0 },
+                    { name: 'Streaming', value: 1 },
+                    { name: 'Listening', value: 2 },
+                    { name: 'Watching', value: 3 },
+                    { name: 'Competing', value: 5 },
                 )
-                .addNumberOption(opt =>
-                    opt.setName('type')
-                        .setDescription('What type of status is it?')
-                        .addChoices(
-                            { name: 'Playing', value: 0 },
-                            { name: 'Streaming', value: 1 },
-                            { name: 'Listening', value: 2 },
-                            { name: 'Watching', value: 3 },
-                            { name: 'Competing', value: 5 },
-                        )
-                )
-                .setDescription('Change the status of the bot.')
-        );
-    }
+        )
+        .setDescription('Change the status of the bot.'),
 
-    public async execute(interaction: ChatInputCommandInteraction): Promise<any> {
+    async execute(interaction: ChatInputCommandInteraction): Promise<void> {
         const message: string = interaction.options.getString('message', true);
         const type: number = interaction.options.getNumber('type', true);
 
@@ -49,7 +45,7 @@ class StatusCommand extends Command {
         await interaction.reply({
             embeds: [{
                 title: 'Status Updated!',
-                description: `New Status: ${ type } ${ message }`
+                description: `New Status: ${type} ${message}`
             }]
         });
 
@@ -64,8 +60,8 @@ class StatusCommand extends Command {
                 shard: 0
             }
         });
-        
-    }
-}
 
-export default new StatusCommand();
+    }
+} as const;
+
+export default StatusCommand;

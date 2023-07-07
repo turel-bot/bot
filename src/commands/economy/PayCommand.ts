@@ -1,34 +1,30 @@
 import type { ChatInputCommandInteraction } from 'discord.js';
 import type { User as DBUser } from '@prisma/client';
-import type OKType from 'src/utility/OKType';
-import { SlashCommandBuilder } from 'discord.js';
-import Command from '../../structures/Command';
-import { updateUser } from '../../utility/db/updateUser';
+import type OKType from '../../utility/OKType';
+import type Command from '../../structures/Command';
 import findOrCreateUser from '../../utility/db/FindOrCreateUser';
 import ParseIntWithCommas from '../../utility/numbers/ParseIntWithCommas';
+import { SlashCommandBuilder } from 'discord.js';
+import { updateUser } from '../../utility/db/updateUser';
 
-class PayCommand extends Command {
-    public constructor() {
-        super(
-            new SlashCommandBuilder()
-                .setName('pay')
-                .addUserOption(
-                    input =>
-                        input.setName('user')
-                            .setDescription('The user to pay.')
-                            .setRequired(true)
-                )
-                .addIntegerOption(
-                    input =>
-                        input.setName('amount')
-                            .setDescription('The amount of bottlecaps to transfer.')
-                            .setRequired(true)
-                )
-                .setDescription('Give another user bottlecaps')
-        );
-    }
+const PayCommand: Command = {
+    data: new SlashCommandBuilder()
+        .setName('pay')
+        .addUserOption(
+            input =>
+                input.setName('user')
+                    .setDescription('The user to pay.')
+                    .setRequired(true)
+        )
+        .addIntegerOption(
+            input =>
+                input.setName('amount')
+                    .setDescription('The amount of bottlecaps to transfer.')
+                    .setRequired(true)
+        )
+        .setDescription('Give another user bottlecaps'),
 
-    public async execute(interaction: ChatInputCommandInteraction): Promise<any> {
+    async execute(interaction: ChatInputCommandInteraction): Promise<void> {
         const transferUser = interaction.options.getUser('user', true);
         const amount = ParseIntWithCommas(interaction.options.getInteger('amount', true));
 
@@ -74,7 +70,7 @@ class PayCommand extends Command {
                 title: 'Transfered ' + amount + ' bottlecaps to ' + transferUser.username
             }], ephemeral: true
         });
-    }
-}
+    },
+} as const;
 
-export default new PayCommand();
+export default PayCommand;

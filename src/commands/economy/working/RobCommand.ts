@@ -3,7 +3,7 @@ import type { User as DBUser } from '@prisma/client';
 import type OKType from 'src/utility/OKType';
 import { SlashCommandBuilder } from 'discord.js';
 import { updateUser } from '../../../utility/db/updateUser';
-import Command from '../../../structures/Command';
+import type Command from '../../../structures/Command';
 import findOrCreateUser from '../../../utility/db/FindOrCreateUser';
 import CooldownHandler from '../../../cooldowns/CooldownHandler';
 import Cooldown from '../../../cooldowns/Cooldown';
@@ -24,27 +24,23 @@ const robbedBackMessages: readonly string[] = [
 
 function getFailMessage(array: readonly string[], user: User): string {
     return array[Math.floor(Math.random() * array.length)]
-        .replace('{0}', `<@${ user.id }>`);
+        .replace('{0}', `<@${user.id}>`);
 }
 
-class RobCommand extends Command {
-    public constructor() {
-        super(
-            new SlashCommandBuilder()
-                .setName('rob')
-                .addUserOption(
-                    input =>
-                        input.setName('user')
-                            .setDescription('The person to rob.')
-                            .setRequired(true)
-                )
-                .setDescription('Steal a fuckers money.')
-        );
-    }
-
-    public async execute(interaction: ChatInputCommandInteraction): Promise<any> {
+const RobCommand: Command = {
+    data: new SlashCommandBuilder()
+        .setName('rob')
+        .addUserOption(
+            input =>
+                input.setName('user')
+                    .setDescription('The person to rob.')
+                    .setRequired(true)
+        )
+        .setDescription('Steal a fuckers money.'),
+    async execute(interaction: ChatInputCommandInteraction): Promise<void> {
         // 10m
-        const cooldown: Cooldown | null = CooldownHandler.getInstance().getCooldown(interaction.user.id, 'rob');
+        const cdh: CooldownHandler = CooldownHandler.getInstance();
+        const cooldown: Cooldown | null = cdh.getCooldown(interaction.user.id, 'rob');
 
         if(cooldown !== null && cooldown.isActive()) {
             await interaction.reply({
@@ -102,7 +98,7 @@ class RobCommand extends Command {
                 await updateUser(robbedUser.id, BigInt(dbRobbedUser.data.balance) + BigInt(amountStolen));
                 await updateUser(interaction.user.id, BigInt(dbSenderUser.data.balance) - BigInt(amountStolen));
 
-                await interaction.reply(`${ getFailMessage(robbedBackMessages, robbedUser).replace('{1}', amountStolen.toLocaleString()) }`);
+                await interaction.reply(`${getFailMessage(robbedBackMessages, robbedUser).replace('{1}', amountStolen.toLocaleString())}`);
                 return;
             }
 
@@ -124,9 +120,9 @@ class RobCommand extends Command {
         await updateUser(robbedUser.id, BigInt(dbRobbedUser.data.balance - amountStolen));
         await updateUser(interaction.user.id, BigInt(dbSenderUser.data.balance + amountStolen));
 
-        await interaction.reply(`You robbed ${ robbedUser } and walked away with ${ amountStolen.toLocaleString() }.`);
-        CooldownHandler.getInstance().addCooldown(interaction.user.id, new Cooldown(interaction.user.id, 'rob', 600000));
-    }
-}
+        await interaction.reply(`You robbed ${robbedUser} and walked away with ${amountStolen.toLocaleString()}.`);
+        cdh.addCooldown(interaction.user.id, new Cooldown(interaction.user.id, 'rob', 600000));
+    },
+} as const;
 
-export default new RobCommand();
+export default RobCommand;
