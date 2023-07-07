@@ -52,9 +52,13 @@ class TClient extends Client {
         await this.loadCommands(directories.commandPath);
         await this.loadEvents(directories.eventPath);
 
-        await this.login(token);
+        // djs does some weird token censorship here so you can
+        // log it, but the funtion for that is private so we just
+        // store what we get and echo it back to mimick djs's
+        // original login function
+        const censored_token: string = await this.login(token);
 
-        return token;
+        return censored_token;
     }
 
     /**
