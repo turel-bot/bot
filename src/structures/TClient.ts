@@ -7,8 +7,7 @@ import type Command from './Command';
 import type Event from './Event';
 import chalk from 'chalk';
 
-interface Directories
-{
+interface Directories {
     commandPath: string;
     eventPath: string;
 }
@@ -19,7 +18,6 @@ class TClient extends Client {
     public owners: string[] = process.env.OWNERS?.split(',') ?? [];
 
     // The rule is being stupid here. It is readonly.
-    // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
     public constructor(opts: Readonly<ClientOptions>) {
         super(opts);
     }
@@ -69,14 +67,13 @@ class TClient extends Client {
         const files: string[] = readdirSync(directory);
 
         for(let i: number = 0; i < files.length; i++) {
-            const path: string = `${ directory }/${ files[i] }`;
+            const path: string = `${directory}/${files[i]}`;
             const file: string = files[i];
 
             if(file.endsWith('.js') || file.endsWith('.ts')) {
-                const registeredCommand: Command = await (import(path) as any);
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-                this.commands.set((registeredCommand as any).default.data.name, (registeredCommand as any).default);
-                console.log(`${ chalk.green('✔')} Loaded command ${ (registeredCommand as any).default.data.name }.`);
+                const registeredCommand: { default: Command; } = await (import(path) as any);
+                this.commands.set(registeredCommand.default.data.name, registeredCommand.default);
+                console.log(`${chalk.green('✔')} Loaded command ${registeredCommand.default.data.name}.`);
             }
             else if(lstatSync(path).isDirectory()) {
                 await this.loadCommands(path);
@@ -92,17 +89,17 @@ class TClient extends Client {
         const files: string[] = readdirSync(directory);
 
         for(let i: number = 0; i < files.length; i++) {
-            const path: string = `${ directory }/${ files[i] }`;
+            const path: string = `${directory}/${files[i]}`;
             const file: string = files[i];
 
             if(file.endsWith('.js') || file.endsWith('.ts')) {
-                let registeredEvent: Event<any> = await (import(path) as any);
-                registeredEvent = (registeredEvent as any).default;
-                this.on(registeredEvent.name, async (...args: any[]) =>
-                    await registeredEvent.execute(this, args)
+                const registeredEvent: { default: Event<any>; } =
+                    await (import(path) as Promise<{ default: Event<any>; }>);
+                this.on(registeredEvent.default.name, async (...args: any[]) =>
+                    await registeredEvent.default.execute(this, args)
                 );
 
-                console.log(`${ chalk.green('✔')} Loaded event ${ registeredEvent.name }.`);
+                console.log(`${chalk.green('✔')} Loaded event ${registeredEvent.default.name}.`);
             }
             else if(lstatSync(path).isDirectory()) {
                 await this.loadEvents(path);
