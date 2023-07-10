@@ -1,5 +1,5 @@
 {
-  "name": "turel-bot",
+  "name": "@turel/bot",
   "version": "0.0.1",
   "description": "An amazing Discord bot.",
   "main": "./dist/src/index.js",
