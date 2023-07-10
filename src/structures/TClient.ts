@@ -96,7 +96,7 @@ class TClient extends Client {
             const file: string = files[i];
 
             if(file.endsWith('.js') || file.endsWith('.ts')) {
-                let registeredEvent: Event = await (import(path) as any);
+                let registeredEvent: Event<any> = await (import(path) as any);
                 registeredEvent = (registeredEvent as any).default;
                 this.on(registeredEvent.name, async (...args: any[]) =>
                     await registeredEvent.execute(this, args)
