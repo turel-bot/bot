@@ -52,12 +52,14 @@ git clone https://github.com/turel-bot/bot.git
 
 Then, move to the bot directory.
 ```sh
-cd bot-muncho
+cd bot
 ```
 
 From there, run the setup script.
 ```sh
 npm run setup
+# OR
+# node ./scripts/setup.js
 ```
 
 Lastly edit the `.env` file and fill in your information. You are expected to know how to get your
@@ -71,4 +73,5 @@ for your time, and thank you anybody who uses this.
 
 ### Licencing
 
-This project is "licenced" using the [Unlicence](https://unlicense.org/) "licence".
+This project is licenced using the MIT licence, you can find it
+at [the LICENCE file](LICENCE)
