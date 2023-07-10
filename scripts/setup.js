@@ -39,7 +39,7 @@ async function cmd(d) {
 }
 
 async function runCmd(d, m) {
-    return new Promise((res, rej) => {
+    return new Promise((res) => {
         cmd(d)
             .then(({stderr}) => {
                 if(stderr) {

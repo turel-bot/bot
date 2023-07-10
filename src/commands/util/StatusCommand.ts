@@ -1,5 +1,6 @@
 import type { ChatInputCommandInteraction } from 'discord.js';
 import type Command from '../../structures/Command';
+import type TClient from 'src/structures/TClient';
 import { SlashCommandBuilder } from 'discord.js';
 import { prismaClient } from '../../index';
 
@@ -29,7 +30,7 @@ const StatusCommand: Command = {
         const message: string = interaction.options.getString('message', true);
         const type: number = interaction.options.getNumber('type', true);
 
-        if(interaction.user.id !== '327639826075484162' && interaction.user.id !== '949101689393254401') {
+        if((interaction.client as TClient).isOwner(interaction.user.id)) {
             await interaction.reply({
                 embeds: [
                     {
