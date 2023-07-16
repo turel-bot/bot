@@ -1,4 +1,4 @@
-import type { Interaction } from 'discord.js';
+import type { Interaction, TextChannel } from 'discord.js';
 import type TClient from '../structures/TClient';
 import type Event from '../structures/Event';
 import type Command from '../structures/Command';
@@ -20,7 +20,7 @@ const interactionCreate: Event<'interactionCreate'> = {
             }
             catch(error: any) {
                 console.error(error);
-                await interaction.channel?.send(`An unexcepted error has occured while trying to execute that command.`);
+                await (interaction.channel as TextChannel).send(`An unexcepted error has occured while trying to execute that command.`);
             }
         }
     },

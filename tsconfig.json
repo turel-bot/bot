@@ -27,6 +27,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "resolveJsonModule": true,
+    "skipLibCheck": true,
     "allowJs": true,
     "baseUrl": ".",
     "paths": {

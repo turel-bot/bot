@@ -14,7 +14,7 @@ const ready: Event<'ready'> = {
             }
         });
 
-        client.user?.setActivity(status!.text, { type: status?.type, url: status?.type === 1 ? status.url ?? 'https://twitch.tv/turelbot' : '' });
+        client.user?.setActivity(status?.text ?? 'razer gaming phone', { type: status?.type, url: status?.type === 1 ? status.url ?? 'https://twitch.tv/turelbot' : '' });
     },
 } as const;
 

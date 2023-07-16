@@ -9,11 +9,7 @@ const client: TClient = new TClient({
     ],
     partials: [],
     // razer gaming phone moment
-    ws: {
-        properties: {
-            browser: 'Discord iOS'
-        }
-    }
+    
 });
 
 client.init(process.env.token)
